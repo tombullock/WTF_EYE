@@ -72,7 +72,7 @@ for subjLoop=1:size(subjectNumbers,2)
        if ismember(condLoop,[1,2])
            
            for i=1:length(unbrokenStruct)            
-               thisMouseAngleDegs = 360-(180 - 180*(unbrokenStruct(i).thisMouseAngle/pi)); % from WTF script             
+               thisMouseAngleDegs = 360-(180 - 180*(unbrokenStruct(i).thisMouseAngle/pi));             
                x(i,1)= round(unbrokenStruct(i).stimLocAngle - thisMouseAngleDegs);              
            end
                
@@ -114,7 +114,7 @@ save([destDirCompiledData '/' 'Modelling_Data.mat'],'modelGuess','modelSD','mode
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% old but potentially useful stuff...
+% old stuff...
 
 
 

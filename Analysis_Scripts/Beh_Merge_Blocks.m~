@@ -1,11 +1,14 @@
+%==========================================================================
 %{
 Beh_Merge_Blocks
 Purpose: merge blocks
 Author: Tom Bullock, UCSB Attention Lab
-Date last modified: 10.30.19
+Date last modified: 10.04.18
+
+TO DO:  fix rename script to ensure we don't overwrite
 
 %}
-
+%==========================================================================
 clear 
 close all
 
@@ -68,3 +71,38 @@ for iSub=1:length(subjects)
     save([behDirProcessed '/' sprintf('sj%02d_allBeh.mat',sjNum) ],'masterStruct','demographicInfo','cbOrder')
     
 end
+
+
+
+
+
+
+
+
+% % % list files
+% % d=dir(sprintf('sj%02d*.mat',sjNum));
+% 
+% % get counterbalancing order
+% cbOrder=trialInfo(1).counterbalancingOrder;
+% 
+% % 
+% 
+% 
+% 
+% % this part merges the blocks
+% for iSub = subjectNumber 
+%     for iBlock = 1:15
+%         load(sprintf('sj%02d_bl%02d_cond%02d_fr.mat',iSub,iBlock,condition));  % load file
+%         % this part merges all blocks into one large mat
+%         if iBlock == 1;
+%             %allTrialData(1:size(dataMat,1),:) = dataMat;
+%             allTrialData(1:size(trialInfo,2)) = trialInfo;
+%         else
+%             %allTrialData((size(allTrialData,1)+1:size(allTrialData,1)+size(dataMat,1)),:) = dataMat;
+%             allTrialData(length(allTrialData)+1:length(allTrialData)+length(trialInfo))=trialInfo; 
+%         end  
+%     end
+%     % save stuff
+%     save(['/home/bullock/Foster_WM/TRIAL_DATA/MERGED_DATA' '/' sprintf('sj%d%02d_all_beh.mat',iSub,condition)],'allTrialData');
+% end
+% 
