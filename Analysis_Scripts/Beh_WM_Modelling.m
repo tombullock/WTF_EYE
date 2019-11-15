@@ -35,7 +35,7 @@ destDirErrorsData = [rDir '/' 'Beh_Errors'];
 setVerbosity = 2;
 
 % set subject numbers
-subjectNumbers = [1,2];
+subjectNumbers = [4,5];
 
 %matlabpool open 72  % this just boosts MEMFIT speed (not running subs in parallel as per usual)
 for subjLoop=1:size(subjectNumbers,2)
@@ -43,6 +43,13 @@ for subjLoop=1:size(subjectNumbers,2)
    sjNum= subjectNumbers(subjLoop);
    
    load([sourceDir '/' sprintf('sj%02d_allBeh.mat',sjNum)])
+   
+   % merge  data across 2 sessions
+   for i=1:4
+       masterStructMerged(i).allTrialData = [masterStruct(1,i).allTrialData, masterStruct(2,i).allTrialData];
+   end
+   masterStruct = [];
+   masterStruct = masterStructMerged;
 
    clear allFit
    
@@ -50,7 +57,7 @@ for subjLoop=1:size(subjectNumbers,2)
        
        disp(['Processing sj ' num2str(sjNum) ' condition ' num2str(condLoop)])
        
-       clear fit x thisMouseAngleDegs
+       clear fit x thisMouseAngleDegs clear 
        
        % remove broken trials
        cnt=0;

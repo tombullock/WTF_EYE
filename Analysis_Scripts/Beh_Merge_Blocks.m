@@ -10,7 +10,7 @@ clear
 close all
 
 % which subject(s)
-subjects=2;
+subjects=[3,6];
 
 % set dirs
 rDir='/Users/tombullock/Documents/Psychology/WTF_EYE';
@@ -36,9 +36,15 @@ for iSub=1:length(subjects)
             
             clear allTrialData
             
+%             if      iCond==1; mc=1;ec=2;
+%             elseif  iCond==2; mc=1;ec=6;
+%             elseif  iCond==3; mc=2;ec=2;
+%             elseif  iCond==4; mc=2;ec=6;
+%             end
+            
             if      iCond==1; mc=1;ec=2;
-            elseif  iCond==2; mc=1;ec=6;
-            elseif  iCond==3; mc=2;ec=2;
+            elseif  iCond==2; mc=2;ec=2;
+            elseif  iCond==3; mc=1;ec=6;
             elseif  iCond==4; mc=2;ec=6;
             end
             
