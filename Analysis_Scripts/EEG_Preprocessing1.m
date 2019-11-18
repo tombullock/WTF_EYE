@@ -52,7 +52,7 @@ for iSub=1:length(subjects)
     load([behDir '/' sprintf('sj%02d_allBeh.mat',sjNum)])
     
     % loop through sessions
-    for iSession=2
+    for iSession=1:2
         
         % was data file pre-merged?
         if ismember(sjNum,preMergedDataSubjects)

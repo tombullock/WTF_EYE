@@ -23,10 +23,10 @@ cd('/Users/tombullock/Documents/Psychology/WTF_EYE/Analysis_Scripts');
 subjects = [5];%[1:6];
 
 % choose sessions
-theseSessions=2; %1:2
+theseSessions=1:2
 
-% show rejected trials?
-showRejTrials=1;
+% show rejected trials? (0=no,1=yes)
+showRejTrials=0;
 
 % set dirs
 rDir = '/Users/tombullock/Documents/Psychology/WTF_EYE';
@@ -64,6 +64,8 @@ for iSub=1:length(subjects)
         EEG = pop_select(EEG,'nochannel',{'EXG1','EXG2','EXG3','EXG4','EXG5','EXG6','EXG7','EXG8'});
 
         % list bad channels via visual inspection (both sessions)!
+        EEG.original_chanlocs = EEG.chanlocs;
+        eeg.chanlocsOriginal = EEG.chanlocs;
         badChannels = badChannelInfo(sjNum);
         eeg.badChannels=badChannels;
         
@@ -108,13 +110,17 @@ for iSub=1:length(subjects)
             end
             close;
         end
-
+        
+        % interpolate bad channels (can always reject later for IEM)
+        EEG = pop_interp(EEG,EEG.original_chanlocs, 'spherical');
+        
         % log percent trials rejected
         eeg.pcTrialsRej = round([sum(EEG.reject.rejthresh)/length(EEG.reject.rejthresh)*100]);
         %pcTrialsRej = eeg.pcTrialRej;
 
-        % permute EEG data to trials x chans x samples
-        eeg.data = permute(EEG.data,[3,1,2]);
+        % NO! permute EEG data to trials x chans x samples
+        %eeg.data = permute(EEG.data,[3,1,2]);
+        eeg.data = EEG.data;
         
         % extract channel labels
         for iChans = 1:length(EEG.chanlocs)
@@ -125,6 +131,8 @@ for iSub=1:length(subjects)
         eeg.preTime = EEG.xmin*1000;
         eeg.postTime = EEG.xmax*1000;
         eeg.sampRate = EEG.srate;
+        eeg.pnts = EEG.pnts;
+        eeg.times = EEG.times;
         
         % save the behavior data
         disp('Saving data...');
