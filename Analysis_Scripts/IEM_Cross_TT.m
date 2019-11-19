@@ -6,6 +6,8 @@ Date: 11.18.19
 
 Train and test within and across all conditions
 
+To Do: build in the permuted data analysis
+
 %}
 
 clear 
@@ -16,7 +18,7 @@ sourceDir = '/Users/tombullock/Documents/Psychology/WTF_EYE/IEM_Results_TT_Withi
 destDir  = '/Users/tombullock/Documents/Psychology/WTF_EYE/IEM_Results_TT_Cross';
 
 % select subjects
-subjects = [5];
+subjects = [4];
 
 % loop through all training/testing combinations
 for iSub=1:length(subjects)

@@ -23,7 +23,7 @@ close all
 cd('/Users/tombullock/Documents/Psychology/WTF_EYE/Analysis_Scripts');
 
 % choose subjects
-subjects = [5];%[1:6];
+subjects = [4];%[1:6];
 
 % were data pre-merged?
 preMergedDataSubjects = [1];

@@ -3,6 +3,8 @@ Plot_IEM_Cross_TT
 Author: Tom Bullock, UCSB Attention Lab
 Date: 11.18.19
 
+To Do: build in perm data analysis/comparison
+
 %}
 
 clear 
@@ -14,7 +16,7 @@ sourceDir = [rDir '/' 'IEM_Results_TT_Cross'];
 destDir = [rDir '/' 'Data_Compiled'];
 
 % which subjects?
-subs = [5];
+subs = [4,5];
 
 % compile slope data
 for iSub=1:length(subs)
@@ -31,7 +33,7 @@ end
 h=figure('units','normalized','outerposition',[0 0 1 1]);
 xNew=-500:2501/40:2000;
 yNew=xNew;
-cLims = [0 .001];
+cLims = [0 .002];
 plotIdx = 0;
 for k=[ 1,6,11,16,...
         2,5,9,13,...

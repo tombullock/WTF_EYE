@@ -19,7 +19,7 @@ eegDir = [rDir '/' 'EEG_Prepro2_Avg_Baseline'];
 bandpassedDir = [rDir '/' 'EEG_Bandpassed'];
 iemDir = [rDir '/' 'IEM_Results_TT_Within' ];
 % select subjects
-subs = 5;
+subs = 4;
 
 % loop through subs
 for s=1:length(subs)
@@ -151,6 +151,7 @@ for s=1:length(subs)
             
             % remove bad channels for IEM analyses
             clear badChanIdx thisBadChan
+            badChanIdx = [];
             cnt=0;
             for i=1:length(eeg.badChannels)
                 thisBadChan=eeg.badChannels{i};
