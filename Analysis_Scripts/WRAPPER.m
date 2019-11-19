@@ -20,8 +20,9 @@ Beh_Rename_Files
 Beh_Merge_Blocks
 
 %% EEG
-EEG_Preprocessing1
+EEG_Preprocessing1 
 EEG_Preprocessing2
-IEM
-IEM_Cross_TT
+IEM 
+IEM_Compute_Compile_Slopes_Within
+IEM_Cross_TT 
 
