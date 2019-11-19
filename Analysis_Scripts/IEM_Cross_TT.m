@@ -1,5 +1,4 @@
 %{
-
 IEM_Cross_TT
 Author: Tom Bullock (using code borrowed from Joshua Foster)
 Date: 11.18.19
@@ -7,18 +6,19 @@ Date: 11.18.19
 Train and test within and across all conditions
 
 To Do: build in the permuted data analysis
-
 %}
 
-clear 
-close all
+function IEM_Cross_TT(subjects)
+
+%clear 
+%close all
 
 % set source dir 
 sourceDir = '/Users/tombullock/Documents/Psychology/WTF_EYE/IEM_Results_TT_Within';
 destDir  = '/Users/tombullock/Documents/Psychology/WTF_EYE/IEM_Results_TT_Cross';
 
 % select subjects
-subjects = [4];
+%subjects = [4];
 
 % loop through all training/testing combinations
 for iSub=1:length(subjects)
@@ -147,5 +147,7 @@ for iSub=1:length(subjects)
 end
 
 
-clear 
-close all
+%clear 
+%close all
+
+return

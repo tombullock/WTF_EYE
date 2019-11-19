@@ -9,10 +9,9 @@ Notes:
 
 Place raw behavior data in Beh_Data dir
 Place raw EEG data in EEG_Raw dir
-Make sure all subfolders exist
+Make sure all 
 %}
 
-%% which subs to process?
 subjects = [4,5];
 
 %% Trial Data 

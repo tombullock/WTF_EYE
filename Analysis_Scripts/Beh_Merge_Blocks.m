@@ -6,11 +6,10 @@ Date last modified: 10.30.19
 
 %}
 
-clear 
-close all
+function Beh_Merge_Blocks(subjects)
 
-% which subject(s)
-subjects=[3,6];
+% % which subject(s)
+% subjects=[3,6];
 
 % set dirs
 rDir='/Users/tombullock/Documents/Psychology/WTF_EYE';
@@ -74,3 +73,5 @@ for iSub=1:length(subjects)
     save([behDirProcessed '/' sprintf('sj%02d_allBeh.mat',sjNum) ],'masterStruct','demographicInfo','cbOrder')
     
 end
+
+return

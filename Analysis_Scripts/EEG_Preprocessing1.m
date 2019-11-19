@@ -14,16 +14,18 @@ Save as mat file
 
 %}
 
+function EEG_Preprocessing1(subjects)
+
 % add paths
 cd('/Users/tombullock/Documents/Psychology/WTF_EYE/Analysis_Scripts');
 cd('/Users/tombullock/Documents/MATLAB/eeglab14_1_2b');
 eeglab
-clear
+%clear
 close all
 cd('/Users/tombullock/Documents/Psychology/WTF_EYE/Analysis_Scripts');
 
 % choose subjects
-subjects = [4];%[1:6];
+%subjects = [4];%[1:6];
 
 % were data pre-merged?
 preMergedDataSubjects = [1];
@@ -33,16 +35,6 @@ rDir = '/Users/tombullock/Documents/Psychology/WTF_EYE';
 eegRawDir = [rDir '/' 'EEG_Raw'];
 eegPrepro1Dir = [rDir '/' 'EEG_Prepro1'];
 behDir = [rDir '/' 'Beh_Data_Processed'];
-
-% % choose analysis type
-% whichPreprocessing=0;
-% if whichPreprocessing==0 % average baseline (use for main spectral analyses)
-%     EEG_ft_epFolder = '/home/bullock/Foster_WM/EEG_ft_ep_all';              %set EEG_ft_ep directory
-%     thisBaseline = [-500 2000];                                             %set baseline correction (whole epoch)
-% elseif whichPreprocessing==1 % pre-stim baseline (use for ERPs, EOG etc.)
-%     EEG_ft_epFolder = '/home/bullock/Foster_WM/PRESTIM_BL_EEG_ft_ep_all';   %set EEG_ft_ep directory
-%     thisBaseline = [-500 0];                                                % set baseline correction (pre-stim)                                                           
-% end
 
 % loop through subs
 for iSub=1:length(subjects)
@@ -150,107 +142,6 @@ for iSub=1:length(subjects)
         
     end
 end
-        
-        
-        
-        
-            
-            
-        
-        
-        
-        
 
+return
         
-        
-        
-
-        
-      
-%         if iBlock == 1
-%                     allTrialData(1:size(trialInfo,2)) = trialInfo;
-%                 else
-%                     allTrialData(length(allTrialData)+1:length(allTrialData)+length(trialInfo))=trialInfo;
-%                 end
-%         
-%         
-%         
-%         
-%         % sync eeg and beh data
-%         allBehStruct = [
-%             masterStruct(iSession,cbOrder(1));...
-%             masterStruct(iSession,cbOrder(2));...
-%             masterStruct(iSession,cbOrder(3));...
-%             masterStruct(iSession,cbOrder(4))];
-%             
-        
-        
-%         % save data
-%         %save([
-%     end
-%     
-%     
-% end
-
-
-
-
-
-% %% set subject numbers and define exceptions (e.g. split EEG files due to bathroom breaks)
-%     sjNum = subjectNumbers(subjLoop);
-%     disp(['PROCESSING SUBJECT: ' num2str(sjNum)])
-%     if sjNum==101||sjNum==303||sjNum==603||sjNum==604||sjNum==801||sjNum==1501||sjNum==1904||sjNum==1901||sjNum==2002||sjNum==2003||sjNum==2103
-%         mergedFile=1;
-%     else
-%         mergedFile=0;
-%     end
-%     
-%     %% import/filter data routine
-%     if filterData==1
-%         
-%         %cd into the raw data (edf) directorty
-%         cd '/home/bullock/Foster_WM/EEG_edfs'
-%         
-%         % merged or complete files (see "A_Merge_Broken_EEG_Files.m" script)
-%         if mergedFile==0
-%             if sjNum~=302 % exception - bdf won't export to edf
-%                 d = dir(sprintf('sj%d.edf',sjNum));
-%             else
-%                 d = dir(sprintf('sj%d.bdf',sjNum));
-%             end
-%             EEG = pop_biosig(d(1).name); 
-%         elseif mergedFile==1
-%             % gets filename for this subject & loads raw .set file
-%             d = dir(sprintf('sj%d.set',sjNum));
-%             EEG = pop_loadset(d(1).name);
-%         end
-%         
-%         % reference to mastoids
-%         EEG = pop_reref( EEG, [65 66],'keepref','on');
-%         
-%         % filter
-%         EEG = pop_eegfiltnew(EEG,0,80); % DO THIS FOR EOG
-%         
-%         % add channel locations
-%         EEG=pop_chanedit(EEG, 'lookup','/home/bullock/matlab_2011b/TOOLBOXES/eeglab13_0_1b/plugins/dipfit2.2/standard_BESA/standard-10-5-cap385.elp'); % cluster
-%         %EEG=pop_chanedit(EEG,'lookup','/Users/tombullock1/Documents/MATLAB/ML_TOOLBOXES/eeglab13_0_1b/plugins/dipfit2.2/standard_BESA/standard-10-5-cap385.elp'); % local
-%         
-%         % *subject exceptions*
-%         if sjNum==302 % eyetracker froze at start of bl08, had to restart display stuff
-%             EEG.event(3002:3010) = [];
-%             EEG.urevent(3002:3010) = [];
-%         end
-%         if sjNum==2101 % adds a 1 as the first event code (this was missing in the EEG data)
-%             EEG = pop_editeventvals(EEG,'insert',{1 [] [] []},'changefield',{1 'type' 1},'changefield',{1 'latency' 1});
-%         end
-%         
-%         % save filtered data
-%         EEG = pop_saveset(EEG,'filename',sprintf('%s_ft.set',d(1).name(1:end-4)),'filepath',EEG_ftFolder);
-%         
-%         %cd back to main directory
-%         cd '/home/bullock/Foster_WM'
-%         
-%     end
-%     
-
-

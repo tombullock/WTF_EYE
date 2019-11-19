@@ -12,8 +12,10 @@ Modified by Tom Bullock
 UCSB Attention Lab
 %}
 
-clear
-close all
+function IEM_Compute_Compile_Slopes_Within(subjects)
+
+%clear
+%close all
 
 % set dirs
 rDir = '/Users/tombullock/Documents/Psychology/WTF_EYE';
@@ -22,7 +24,7 @@ sourceDir = [rDir '/' 'IEM_Results_TT_Within' ];
 destDirCompiled = [rDir '/' 'Data_Compiled'];
 
 % subjects 
-subjects = [4,5];
+%subjects = [4,5];
 
 % specify x values
 thisX = 0:45:180; 
@@ -99,4 +101,4 @@ save([destDirCompiled '/' 'IEM_Slopes_Within.mat'],...
     'allSlopes_real_evoked',...
     'allSlopes_real_total')
 
-
+return

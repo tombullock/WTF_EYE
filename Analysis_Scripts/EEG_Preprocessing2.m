@@ -11,16 +11,18 @@ Reshape data for further processing
 
 %}
 
+function EEG_Preprocessing2(subjects)
+
 % add paths
 cd('/Users/tombullock/Documents/Psychology/WTF_EYE/Analysis_Scripts');
 cd('/Users/tombullock/Documents/MATLAB/eeglab14_1_2b');
 eeglab
-clear
+%clear
 close all
 cd('/Users/tombullock/Documents/Psychology/WTF_EYE/Analysis_Scripts');
 
 % choose subjects
-subjects = [4];%[1:6];
+%subjects = [4];%[1:6];
 
 % choose sessions
 theseSessions=1:2
@@ -145,3 +147,5 @@ for iSub=1:length(subjects)
     end
 
 end
+
+return
