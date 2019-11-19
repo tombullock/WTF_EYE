@@ -102,7 +102,12 @@ for s=1:length(subs)
         
         % set posBin and minCnt for this cond
         posBin = allPosBin(iCond).posBin;
-        minCnt = allConds(iCond).minCnt-1; % minus 1 to give all bins variability across iterations
+        
+        for iMin=1:4
+           minCntMat(iMin)=allConds(iMin).minCnt; 
+        end
+        
+        minCnt = min(minCntMat)-1; % minus 1 to give all bins variability across iterations
         
         %%clear eegs
 
@@ -214,8 +219,12 @@ for s=1:length(subs)
                     end
                 end
                 
-                % run IEM on all samples (high temporal resolution for
-                % "within subject/condition" plots
+                %==========================================================
+                %{ 
+                Run high temporal resolution IEM for "within" analysis only
+                %}
+                %==========================================================
+                
                 for t = 1:nSamps
                     
                     % grab data for timepoint t
@@ -281,12 +290,21 @@ for s=1:length(subs)
                     %%allWeightsTotal(:,:,:,t,f,iter) = WeightsTotal;
                 end
                 
-                % run IEM with reduced sampling rate (lower temporal
-                % resolution) for training/testing across conditions and
-                % save B1/B2/C1.  Only run on alpha band!
+                
+                %==========================================================
+                %{ 
+                Run IEM with reduced SR for cross condition
+                training/testing and save weights.
+                Alpha band only!
+                %}
+                %==========================================================
+                
                 if f==1
+                    
+                    % REAL DATA
+                    
                     % training loop
-                    tf_total=[];
+                    %%tf_total=[];
                     for trLoop=1:40 % divide 640 samples into 40 samples of 16 (62.5ms per sample)
                         
                         theseSamples = (16*trLoop)-15:(16*trLoop);
@@ -322,12 +340,12 @@ for s=1:length(subs)
                                     C2(ii,:) = wshift('1D', C2(ii,:), shiftInd-n2shift-1);
                                 end
                                 
-                                tf_total(iter,trLoop,teLoop,i,:) = mean(C2,1);
+                                %tf_total(iter,trLoop,teLoop,i,:) = mean(C2,1);
                                 
                                 % save B1, B2 and C1 for cross condition TT
                                 allB1(iter,trLoop,teLoop,i,:,:)=B1;
                                 allB2(iter,trLoop,teLoop,i,:,:)=B2;
-                                allC1(iter,trLoop,teLoop,i,:,:)=C1;
+                                %allC1(iter,trLoop,teLoop,i,:,:)=C1;
                                 
                             end
                             
@@ -335,9 +353,218 @@ for s=1:length(subs)
                     end
                 end
                 
-              
+                
+                %==========================================================
+                %{
+                Run high temporal IEM permuted analyis
+                %}
+                %==========================================================
+                
+                % Loop through permutations
+                nPerms=10;
+                for perm = 1:nPerms
+                    tic % start timing permutation loop
+                    %fprintf('Permutation %d out of %d\n',perm,nPerms);
+                    
+                    %-----------------------------------------------------------------------------
+                    % Permute trial assignment within each block
+                    %-----------------------------------------------------------------------------
+                    permedPosBin = nan(size(posBin)); % preallocate permuted position bins vector
+                    for b = 1:nBlocks % for each block..
+                        pInd = randperm(em.nTrialsPerBlock); % create a permutation index
+                        permedBins(pInd) = posBin(blocks == b); % grab block b data and permute according data according to the index
+                        permedPosBin(blocks == b) = permedBins; % put permuted data into permedPosBin
+                        permInd(f,iter,perm,b,:) = pInd; % save the permutation (permInd is saved at end of the script)
+                    end
+                    
+                    %-----------------------------------------------------------------------------
+                    
+                    % Average data for each position bin across blocks
+                    posBins = 1:nBins;
+                    blockDat_evoked = nan(nBins*nBlocks,nElectrodes,nSamps); % averaged evoked data
+                    blockDat_total = nan(nBins*nBlocks,nElectrodes,nSamps);  % averaged total data
+                    labels = nan(nBins*nBlocks,1);                           % bin labels for averaged data
+                    blockNum = nan(nBins*nBlocks,1);                         % block numbers for averaged data
+                    c = nan(nBins*nBlocks,nChans);                           % predicted channel responses for averaged data
+                    bCnt = 1;
+                    for ii = 1:nBins
+                        for iii = 1:nBlocks
+                            blockDat_evoked(bCnt,:,:) = abs(squeeze(mean(fdata_evoked(permedPosBin==posBins(ii) & blocks==iii,:,tois),1))).^2;
+                            blockDat_total(bCnt,:,:) = squeeze(mean(fdata_total(permedPosBin==posBins(ii) & blocks==iii,:,tois),1));
+                            labels(bCnt) = ii;
+                            blockNum(bCnt) = iii;
+                            c(bCnt,:) = basisSet(ii,:);
+                            bCnt = bCnt+1;
+                        end
+                    end
+                    
+                    for t = 1:nSamps
+                        
+                        % grab data for timepoint t
+                        toi = ismember(times,times(t)-em.window/2:times(t)+em.window/2); % time window of interest
+                        de = squeeze(mean(blockDat_evoked(:,:,toi),3)); % evoked data
+                        dt = squeeze(mean(blockDat_total(:,:,toi),3));  % total data
+                        
+                        % Do forward model
+                        tmpeC2 = nan(nBlocks,nBins,nChans); tmptC2 = tmpeC2; % for unshifted channel responses
+                        tmpeCR = nan(nBlocks,nChans); tmptCR = nan(nBlocks,nChans); % for shifted channel respones
+                        
+                        for i=1:nBlocks % loop through blocks, holding each out as the test set
+                            
+                            trnl = labels(blockNum~=i); % training labels
+                            tstl = labels(blockNum==i); % test labels
+                            
+                            %-----------------------------------------------------%
+                            % Analysis on Evoked Power                            %
+                            %-----------------------------------------------------%
+                            B1 = de(blockNum~=i,:);    % training data
+                            B2 = de(blockNum==i,:);    % test data
+                            C1 = c(blockNum~=i,:);     % predicted channel outputs for training data
+                            W = C1\B1;          % estimate weight matrix
+                            C2 = (W'\B2')';     % estimate channel responses
+                            
+                            % tmpeC2(i,:,:) = C2;
+                            
+                            % shift eegs to common center
+                            n2shift = ceil(size(C2,2)/2);
+                            for ii=1:size(C2,1)
+                                [~, shiftInd] = min(abs(posBins-tstl(ii)));
+                                C2(ii,:) = wshift('1D', C2(ii,:), shiftInd-n2shift-1);
+                            end
+                            
+                            tmpeCR(i,:) = mean(C2); % average shifted channel responses
+                            
+                            %-----------------------------------------------------%
+                            % Analysis on Total Power                             %
+                            %-----------------------------------------------------%
+                            B1 = dt(blockNum~=i,:);    % training data
+                            B2 = dt(blockNum==i,:);    % test data
+                            C1 = c(blockNum~=i,:);     % predicted channel outputs for training data
+                            W = C1\B1;          % estimate weight matrix
+                            C2 = (W'\B2')';     % estimate channel responses
+                            
+                            % tmptC2(i,:,:) = C2;
+                            
+                            % shift eegs to common center
+                            n2shift = ceil(size(C2,2)/2);
+                            for ii=1:size(C2,1)
+                                [~, shiftInd] = min(abs(posBins-tstl(ii)));
+                                C2(ii,:) = wshift('1D', C2(ii,:), shiftInd-n2shift-1);
+                            end
+                            
+                            tmptCR(i,:) = mean(C2); % averaged shifted channel responses
+                            
+                            %-----------------------------------------------------%
+                            
+                        end
+                        % save data to indexed matrix
+                        % C2_evoked(f,iter,perm,t,:,:) = mean(tmpeC2);
+                        % C2_total(f,iter,perm,t,:,:) = mean(tmptC2);
+                        tf_evoked_perm(f,iter,perm,t,:) = mean(tmpeCR);
+                        tf_total_perm(f,iter,perm,t,:) = mean(tmptCR);
+                    end
+                    toc
+                end
+                
+                %clear permInd permedBins
+                
+                
+                %==========================================================
+                %{
+                Run PERMUTED IEM with reduced SR for cross condition
+                training/testing and save weights.
+                Alpha band only!
+                %}
+                %==========================================================
+                
+                % Loop through permutations
+                for perm = 1:nPerms
+                    tic % start timing permutation loop
+                    %fprintf('Permutation %d out of %d\n',perm,nPerms);
+                    
+                    %-----------------------------------------------------------------------------
+                    % Permute trial assignment within each block
+                    %-----------------------------------------------------------------------------
+                    permedPosBin = nan(size(posBin)); % preallocate permuted position bins vector
+                    for b = 1:nBlocks % for each block..
+                        pInd = randperm(em.nTrialsPerBlock); % create a permutation index
+                        permedBins(pInd) = posBin(blocks == b); % grab block b data and permute according data according to the index
+                        permedPosBin(blocks == b) = permedBins; % put permuted data into permedPosBin
+                        permInd(f,iter,perm,b,:) = pInd; % save the permutation (permInd is saved at end of the script)
+                    end
+                    
+                    %-----------------------------------------------------------------------------
+                    
+                    % Average data for each position bin across blocks
+                    posBins = 1:nBins;
+                    blockDat_evoked = nan(nBins*nBlocks,nElectrodes,nSamps); % averaged evoked data
+                    blockDat_total = nan(nBins*nBlocks,nElectrodes,nSamps);  % averaged total data
+                    labels = nan(nBins*nBlocks,1);                           % bin labels for averaged data
+                    blockNum = nan(nBins*nBlocks,1);                         % block numbers for averaged data
+                    c = nan(nBins*nBlocks,nChans);                           % predicted channel responses for averaged data
+                    bCnt = 1;
+                    for ii = 1:nBins
+                        for iii = 1:nBlocks
+                            blockDat_evoked(bCnt,:,:) = abs(squeeze(mean(fdata_evoked(permedPosBin==posBins(ii) & blocks==iii,:,tois),1))).^2;
+                            blockDat_total(bCnt,:,:) = squeeze(mean(fdata_total(permedPosBin==posBins(ii) & blocks==iii,:,tois),1));
+                            labels(bCnt) = ii;
+                            blockNum(bCnt) = iii;
+                            c(bCnt,:) = basisSet(ii,:);
+                            bCnt = bCnt+1;
+                        end
+                    end
+                    
+                    % training loop
+                    for trLoop=1:40 % divide 640 samples into 40 samples of 16 (62.5ms per sample)
+                        
+                        theseSamples = (16*trLoop)-15:(16*trLoop);
+                        trainData = squeeze(mean(blockDat_total(:,:,theseSamples),3));
+                        
+                        % testing loop
+                        for teLoop=1:40
+                            
+                            theseSamples = (16*teLoop)-15:(16*teLoop);
+                            testData = squeeze(mean(blockDat_total(:,:,theseSamples),3));
+                            
+                            % Do forward model
+                            for i=1:nBlocks % loop through blocks, holding each out as the test set
+                                
+                                trnl = labels(blockNum~=i); % training labels
+                                tstl = labels(blockNum==i); % test labels
+                                
+                                %-----------------------------------------------------%
+                                % Analysis on Total Power                             %
+                                %-----------------------------------------------------%
+                                B1 = trainData(blockNum~=i,:);    % training data
+                                B2 = testData(blockNum==i,:);    % test data
+                                C1 = c(blockNum~=i,:);     % predicted channel outputs for training data
+                                W = C1\B1;          % estimate weight matrix
+                                C2 = (W'\B2')';     % estimate channel responses
+                                
+                                %C2_total(f,iter,t,i,:,:) = C2;
+                                
+                                % shift eegs to common center
+                                n2shift = ceil(size(C2,2)/2);
+                                for ii=1:size(C2,1)
+                                    [~, shiftInd] = min(abs(posBins-tstl(ii)));
+                                    C2(ii,:) = wshift('1D', C2(ii,:), shiftInd-n2shift-1);
+                                end
+                                
+                                %tf_total(perm,iter,trLoop,teLoop,i,:) = mean(C2,1);
+                                
+                                % save B1, B2 and C1 for cross condition TT
+                                allB1_perm(perm,iter,trLoop,teLoop,i,:,:)=B1;
+                                allB2_perm(perm,iter,trLoop,teLoop,i,:,:)=B2;
+                                %allC1_perm(perm,iter,trLoop,teLoop,i,:,:)=C1;
+                                
+                            end
+                        end
+                    end
+                end
+                
+                %clear permInd permedBins
+
             end
-            
             
         end
         
@@ -346,35 +573,32 @@ for s=1:length(subs)
         tf_evoked = squeeze(mean(mean(tf_evoked,2),4));
         tf_total = squeeze(mean(mean(tf_total,2),4));
         
-        % save high temporal res data
-        em.tfs.evoked = tf_evoked;
-        em.tfs.total = tf_total;
+        tf_evoked_perm = squeeze(mean(mean(tf_evoked_perm,2),3));
+        tf_total_perm = squeeze(mean(mean(tf_total_perm,2),3));
         
-        % save low temporal res data for cross training/testing
+        % organize high temporal res data
+        em_within.tfs.evoked = tf_evoked;
+        em_within.tfs.total = tf_total;
+        
+        % organize low temporal res data for cross training/testing
         em.tfs_cross_alpha.allB1=allB1;
         em.tfs_cross_alpha.allB2=allB2;
-        %em.allC1=allC1;
+ 
+        % save high temporal res permuted data
+        em_within.tfs_perm.evoked = tf_evoked_perm;
+        em_within.tfs_perm.total = tf_total_perm;
+    
+        % save low temporal res permuted data
+        em.tfs_cross_alpha_perm.allB1=allB1_perm;
+        em.tfs_cross_alpha_perm.allB2=allB2_perm;
         
-        save([iemDir '/' sprintf('sj%02d_cond%02d_IEM.mat',sn,iCond)],'em','minCnt','nElectrodes')
-        
-        clear tf_evoked tf_total allB1 allB2 allC1
+        save([iemDir '/' sprintf('sj%02d_cond%02d_IEM.mat',sn,iCond)],'em','em_within','minCnt','nElectrodes','-v7.3')
+
+        clear em_within minCnt nElectrodes tf_evoked tf_total tf_evoked_perm tf_total_perm allB1 allB2 allB1_perm allB2_Perm allC1 permInd perm permedBins permedPosBin
         
         em.blocks = [];
-        
-%         % save data
-%         fName = [dRoot,num2str(sn),name];
-%         em.C2.evoked = C2_evoked;
-%         em.C2.total = C2_total;
-% 
-%         em.tfs.totalW = allWeightsTotal;
-%         em.nBlocks = nBlocks;
-%         %save(fName,'em','-v7.3');
-%         parsave(fName,em,minCnt,nElectrodes);
-        
-        
+
     end
-    
-    %clear tf_evoked tf_total em 
     
    % remember to clear any leftovers between subs/conds etc.
     
