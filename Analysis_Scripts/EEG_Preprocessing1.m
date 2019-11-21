@@ -27,8 +27,9 @@ cd('/Users/tombullock/Documents/Psychology/WTF_EYE/Analysis_Scripts');
 % choose subjects
 %subjects = [4];%[1:6];
 
-% were data pre-merged?
-preMergedDataSubjects = [1];
+% were data pre-merged? (subject,session on each row)
+preMergedDataSubjectsSessions = [1,1;3,2];
+
 
 % set dirs
 rDir = '/Users/tombullock/Documents/Psychology/WTF_EYE';
@@ -47,7 +48,7 @@ for iSub=1:length(subjects)
     for iSession=1:2
         
         % was data file pre-merged?
-        if ismember(sjNum,preMergedDataSubjects)
+        if ismember(sjNum,preMergedDataSubjectsSessions)
             mergedFile=1;
         else
             mergedFile=0;
