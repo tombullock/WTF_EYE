@@ -19,19 +19,19 @@ clear
 close all
 
 % add dependencies
-%addpath(genpath('/home/bullock/WTF/Behavior/visionlab-MemToolbox-fea8609'))
-addpath(genpath('/Users/tombullock/Documents/MATLAB/ML_TOOLBOXES/visionlab-MemToolbox-fea8609'))
+%addpath(genpath('\\home\\bullock\\WTF\\Behavior\\visionlab-MemToolbox-fea8609'))
+addpath(genpath('C:\\Users\\BOSS-EEG\\Desktop\\WTF_EYE\\Dependancies\\visionlab-MemToolbox-fea8609'))
 
 % set dirs
-rDir='/Users/tombullock/Documents/Psychology/WTF_EYE';
-%sourceDir = '/home/bullock/WTF/Behavior/Beh_Merged';
-sourceDir = [rDir '/' 'Beh_Data_Processed'];
-%destDirCompiledData = '/home/bullock/WTF/Data_Compiled';
-destDirCompiledData = [rDir '/' 'Data_Compiled'];
-%destDirErrorsData = '/home/bullock/WTF/Behavior/Beh_Errors';
-destDirErrorsData = [rDir '/' 'Beh_Errors'];
+rDir='C:\\Users\\BOSS-EEG\\Desktop\\WTF_EYE';
+%sourceDir = '\\home\\bullock\\WTF\\Behavior\\Beh_Merged';
+sourceDir = [rDir '\\' 'Beh_Data_Processed'];
+%destDirCompiledData = '\\home\\bullock\\WTF\\Data_Compiled';
+destDirCompiledData = [rDir '\\' 'Data_Compiled'];
+%destDirErrorsData = '\\home\\bullock\\WTF\\Behavior\\Beh_Errors';
+destDirErrorsData = [rDir '\\' 'Beh_Errors'];
 
-%set verbosity (0=just get values, 2=get plots for each individual/cond)
+%set verbosity (0=just get values, 2=get plots for each individual\\cond)
 setVerbosity = 2;
 
 % set subject numbers
@@ -42,7 +42,7 @@ for subjLoop=1:size(subjectNumbers,2)
         
    sjNum= subjectNumbers(subjLoop);
    
-   load([sourceDir '/' sprintf('sj%02d_allBeh.mat',sjNum)])
+   load([sourceDir '\\' sprintf('sj%02d_allBeh.mat',sjNum)])
    
    % merge  data across 2 sessions
    for i=1:4
@@ -105,13 +105,13 @@ for subjLoop=1:size(subjectNumbers,2)
        modelSD(subjLoop,condLoop) = sd;
        
        %save error vector for other analyses
-       save([destDirErrorsData '/' sprintf('sj%d%02d_beh_errors.mat',sjNum,condLoop)],'x','model','fit')
+       save([destDirErrorsData '\\' sprintf('sj%d%02d_beh_errors.mat',sjNum,condLoop)],'x','model','fit')
    end
    
 end
  
 % save summary fit data stats
-save([destDirCompiledData '/' 'Modelling_Data.mat'],'modelGuess','modelSD','modelMu');
+save([destDirCompiledData '\\' 'Modelling_Data.mat'],'modelGuess','modelSD','modelMu');
 
 
 
@@ -131,7 +131,7 @@ save([destDirCompiledData '/' 'Modelling_Data.mat'],'modelGuess','modelSD','mode
 %        
 %        data = [];
 % 
-%        load([sourceDir '/' sprintf('sj%d%02d_newBeh.mat',sjNum,condLoop)]);
+%        load([sourceDir '\\' sprintf('sj%d%02d_newBeh.mat',sjNum,condLoop)]);
 % 
 %        disp(['Processing Subject ' num2str(sjNum) '0' num2str(condLoop)])
 % 
@@ -171,7 +171,7 @@ save([destDirCompiledData '/' 'Modelling_Data.mat'],'modelGuess','modelSD','mode
 %        modelSD(subjLoop,condLoop) = sd;
 %        
 %        %save error vector for other analyses
-%        save([destDirErrorsData '/' sprintf('sj%d%02d_beh_errors.mat',sjNum,condLoop)],'x','model','fit')
+%        save([destDirErrorsData '\\' sprintf('sj%d%02d_beh_errors.mat',sjNum,condLoop)],'x','model','fit')
 %       
 % %        % to plot the fit at later stage after running all subjects we can
 % %        % use the following plotting functions (from MemFit.m, line 200 ish)
@@ -197,11 +197,11 @@ save([destDirCompiledData '/' 'Modelling_Data.mat'],'modelGuess','modelSD','mode
 %    
 % end
 % 
-% save([destDirCompiledData '/' 'Modelling_Data.mat'],'modelGuess','modelSD');
+% save([destDirCompiledData '\\' 'Modelling_Data.mat'],'modelGuess','modelSD');
 % 
 % % create simple plot
 % h=figure;
-% errorbar(mean(modelSD,1),std(modelSD,1)/sqrt(size(modelSD,1)),'o')
+% errorbar(mean(modelSD,1),std(modelSD,1)\\sqrt(size(modelSD,1)),'o')
 % 
 % % save plot
 % %saveas(h,'ALL_SUBS_BEH_SD.fig','fig')

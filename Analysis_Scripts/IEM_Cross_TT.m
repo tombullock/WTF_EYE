@@ -14,20 +14,20 @@ function IEM_Cross_TT(subjects)
 %close all
 
 % set source dir 
-sourceDir = '/Users/tombullock/Documents/Psychology/WTF_EYE/IEM_Results_TT_Within';
-destDir  = '/Users/tombullock/Documents/Psychology/WTF_EYE/IEM_Results_TT_Cross';
+sourceDir = 'C:\\Users\\BOSS-EEG\\Desktop\\WTF_EYE\\IEM_Results_TT_Within';
+destDir  = 'C:\\Users\\BOSS-EEG\\Desktop\\WTF_EYE\\IEM_Results_TT_Cross';
 
 % select subjects
 %subjects = [4];
 
-% loop through all training/testing combinations
+% loop through all training\testing combinations
 for iSub=1:length(subjects)
     
     sjNum=subjects(iSub);
     
     em=[]; tf_total=[]; tf_total_cross=[];
     
-    % loop through all 16 possible training/testing combinations
+    % loop through all 16 possible training\testing combinations
     for k=1:16
         
         disp(['Subject Number: ' num2str(sjNum) ' Combination Number: ' num2str(k)])
@@ -50,8 +50,8 @@ for iSub=1:length(subjects)
         elseif  k==16; trainCond=4; testCond=4;
         end
         
-        trainSet = load([sourceDir '/' sprintf('sj%02d_cond%02d_IEM.mat',sjNum,trainCond)]);
-        testSet = load([sourceDir '/' sprintf('sj%02d_cond%02d_IEM.mat',sjNum,testCond)]);
+        trainSet = load([sourceDir '\\' sprintf('sj%02d_cond%02d_IEM.mat',sjNum,trainCond)]);
+        testSet = load([sourceDir '\\' sprintf('sj%02d_cond%02d_IEM.mat',sjNum,testCond)]);
 
         
         % set up some vars
@@ -142,7 +142,7 @@ for iSub=1:length(subjects)
     % save em
     em.tfs.total = tf_total_cross;
     
-    save([destDir '/' sprintf('sj%02d_IEM_Alpha_CrossTT.mat',sjNum)],'em');
+    save([destDir '\\' sprintf('sj%02d_IEM_Alpha_CrossTT.mat',sjNum)],'em');
     
 end
 

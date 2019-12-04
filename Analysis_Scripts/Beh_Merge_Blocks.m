@@ -12,9 +12,9 @@ function Beh_Merge_Blocks(subjects)
 % subjects=[3,6];
 
 % set dirs
-rDir='/Users/tombullock/Documents/Psychology/WTF_EYE';
-behDir=[rDir '/' 'Beh_Data'];
-behDirProcessed=[rDir '/' 'Beh_Data_Processed'];
+rDir='C:\\Users\\BOSS-EEG\\Desktop\\WTF_EYE';
+behDir=[rDir '\\' 'Beh_Data'];
+behDirProcessed=[rDir '\\' 'Beh_Data_Processed'];
 
 % rename raw files
 Beh_Rename_Files(behDir)
@@ -27,7 +27,7 @@ for iSub=1:length(subjects)
     for iSession=1%:2
         
         % find CB order
-        load([behDir '/' sprintf('sj%02d_se%02d_bl01_mc01_ec02.mat',sjNum,iSession)]);
+        load([behDir '\\' sprintf('sj%02d_se%02d_bl01_mc01_ec02.mat',sjNum,iSession)]);
         cbOrder=trialInfo(1).counterbalancingOrder;
         clear trialInfo
         
@@ -53,7 +53,7 @@ for iSub=1:length(subjects)
                 
                 clear trialInfo 
                 
-                load([behDir '/' sprintf('sj%02d_se%02d_bl%02d_mc%02d_ec%02d.mat',sjNum,iSession,iBlock,mc,ec) ])
+                load([behDir '\\' sprintf('sj%02d_se%02d_bl%02d_mc%02d_ec%02d.mat',sjNum,iSession,iBlock,mc,ec) ])
                 
                 if iBlock == 1
                     allTrialData(1:size(trialInfo,2)) = trialInfo;
@@ -70,7 +70,7 @@ for iSub=1:length(subjects)
         
     end
     
-    save([behDirProcessed '/' sprintf('sj%02d_allBeh.mat',sjNum) ],'masterStruct','demographicInfo','cbOrder')
+    save([behDirProcessed '\\' sprintf('sj%02d_allBeh.mat',sjNum) ],'masterStruct','demographicInfo','cbOrder')
     
 end
 

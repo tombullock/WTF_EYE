@@ -11,9 +11,9 @@ clear
 close all
 
 % which directories?
-rDir = '/Users/tombullock/Documents/Psychology/WTF_EYE';
-sourceDir = [rDir '/' 'IEM_Results_TT_Cross'];
-destDir = [rDir '/' 'Data_Compiled'];
+rDir = 'C:\\Users\\BOSS-EEG\\Desktop\\WTF_EYE';
+sourceDir = [rDir '\\' 'IEM_Results_TT_Cross'];
+destDir = [rDir '\\' 'Data_Compiled'];
 
 % which subjects?
 subs = [4,5];
@@ -24,7 +24,7 @@ for iSub=1:length(subs)
     sjNum=subs(iSub);
     
     % load data
-    load([sourceDir '/' sprintf('sj%02d_IEM_Alpha_CrossTT.mat',sjNum)])
+    load([sourceDir '\\' sprintf('sj%02d_IEM_Alpha_CrossTT.mat',sjNum)])
     allTF_real_total(iSub,:,:,:)=em.rSl.total; %subs x cross x tr x te
     clear em 
 end
@@ -73,7 +73,7 @@ for k=[ 1,6,11,16,...
     elseif  testCond==4; testLabel = 'Color-Move';
     end
     
-    tl = ['Train: ' trainLabel ' / ' 'Test: ' testLabel];
+    tl = ['Train: ' trainLabel ' \\ ' 'Test: ' testLabel];
     
     % create plots
     %subplot(4,4,k)

@@ -16,10 +16,10 @@ function IEM(subjects)
 %close all
 
 % set dirs
-rDir = '/Users/tombullock/Documents/Psychology/WTF_EYE';
-eegDir = [rDir '/' 'EEG_Prepro2_Avg_Baseline'];
-bandpassedDir = [rDir '/' 'EEG_Bandpassed'];
-iemDir = [rDir '/' 'IEM_Results_TT_Within' ];
+rDir = 'C:\\Users\\BOSS-EEG\\Desktop\\WTF_EYE';
+eegDir = [rDir '\\' 'EEG_Prepro2_Avg_Baseline'];
+bandpassedDir = [rDir '\\' 'EEG_Bandpassed'];
+iemDir = [rDir '\\' 'IEM_Results_TT_Within' ];
 % select subjects
 subjects = 4;
 
@@ -44,7 +44,7 @@ for s=1:length(subjects)
     % merge data across sessions and split by condition
     for iSession=1:2
         
-        load([eegDir '/' sprintf('sj%02d_se%02d_wtfEye.mat',sn,iSession)])
+        load([eegDir '\\' sprintf('sj%02d_se%02d_wtfEye.mat',sn,iSession)])
         
         % reject artifact trials from eeg and beh
         eegs = eeg.data;
@@ -124,7 +124,7 @@ for s=1:length(subjects)
 
             % apply butterworth filter (3rd order, bandpass)
             [z1,p1] = butter(3, [freqs(f,1), freqs(f,2)]./(eeg.sampRate/2),'bandpass');
-            data = eegs;
+            data = double(eegs);
             bandEEG = NaN(size(data,1),size(data,2),size(data,3));
             for x = 1:size(data,1)
                 for y = 1:size(data,3)
@@ -142,14 +142,14 @@ for s=1:length(subjects)
                 end
             end
            
-            % create bandpassed data structure and save for sub/cond/freq
+            % create bandpassed data structure and save for sub\cond\freq
             band.eeg = eegs;
             band.freqs = freqs(f,:);
             band.chanlocs = eeg.chanLabels;
             band.srate = eeg.sampRate;
             band.beh = allConds(iCond).beh;
             band.times = eeg.times;
-            save([bandpassedDir '/' sprintf('sj%02d_cond%02d_%s',sn,iCond,bands{f})],'band','-v7.3');
+            save([bandpassedDir '\\' sprintf('sj%02d_cond%02d_%s',sn,iCond,bands{f})],'band','-v7.3');
             
             % remove bad channels for IEM analyses
             clear badChanIdx thisBadChan
@@ -367,7 +367,7 @@ for s=1:length(subjects)
                 nPerms=10;
                 for perm = 1:nPerms
                     tic % start timing permutation loop
-                    %fprintf('Permutation %d out of %d\n',perm,nPerms);
+                    %fprintf('Permutation %d out of %d/n',perm,nPerms);
                     
                     %-----------------------------------------------------------------------------
                     % Permute trial assignment within each block
@@ -483,7 +483,7 @@ for s=1:length(subjects)
                 % Loop through permutations
                 for perm = 1:nPerms
                     tic % start timing permutation loop
-                    %fprintf('Permutation %d out of %d\n',perm,nPerms);
+                    %fprintf('Permutation %d out of %d/n',perm,nPerms);
                     
                     %-----------------------------------------------------------------------------
                     % Permute trial assignment within each block
@@ -595,7 +595,7 @@ for s=1:length(subjects)
         em.tfs_cross_alpha_perm.allB1=allB1_perm;
         em.tfs_cross_alpha_perm.allB2=allB2_perm;
         
-        save([iemDir '/' sprintf('sj%02d_cond%02d_IEM.mat',sn,iCond)],'em','em_within','minCnt','nElectrodes','-v7.3')
+        save([iemDir '\\' sprintf('sj%02d_cond%02d_IEM.mat',sn,iCond)],'em','em_within','minCnt','nElectrodes','-v7.3')
 
         clear em_within minCnt nElectrodes tf_evoked tf_total tf_evoked_perm tf_total_perm allB1 allB2 allB1_perm allB2_Perm allC1 permInd perm permedBins permedPosBin
         

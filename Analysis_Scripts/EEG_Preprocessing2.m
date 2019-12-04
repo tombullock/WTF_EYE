@@ -14,12 +14,12 @@ Reshape data for further processing
 function EEG_Preprocessing2(subjects)
 
 % add paths
-cd('/Users/tombullock/Documents/Psychology/WTF_EYE/Analysis_Scripts');
-cd('/Users/tombullock/Documents/MATLAB/eeglab14_1_2b');
+cd('C:\\Users\\BOSS-EEG\\Desktop\\WTF_EYE\\Analysis_Scripts');
+cd('C:\\Users\\BOSS-EEG\\Desktop\\WTF_EYE\\Dependancies\\eeglab14_1_2b');
 eeglab
 %clear
 close all
-cd('/Users/tombullock/Documents/Psychology/WTF_EYE/Analysis_Scripts');
+cd('C:\\Users\\BOSS-EEG\\Desktop\\WTF_EYE\\Analysis_Scripts');
 
 % choose subjects
 %subjects = [4];%[1:6];
@@ -31,17 +31,17 @@ theseSessions=1:2
 showRejTrials=0;
 
 % set dirs
-rDir = '/Users/tombullock/Documents/Psychology/WTF_EYE';
-eegPrepro1Dir = [rDir '/' 'EEG_Prepro1'];
+rDir = 'C:\\Users\\BOSS-EEG\\Desktop\\WTF_EYE';
+eegPrepro1Dir = [rDir '\\' 'EEG_Prepro1'];
 
 % choose analysis type
 whichPreprocessing=0;
-if whichPreprocessing==0 % average baseline (use for main spectral/IEM analyses)
-    destDir = [rDir '/' 'EEG_Prepro2_Avg_Baseline'];
+if whichPreprocessing==0 % average baseline (use for main spectral\\IEM analyses)
+    destDir = [rDir '\\' 'EEG_Prepro2_Avg_Baseline'];
     thisBaseline = [-500 2000]; 
     interpolateBadChannels=0;
 elseif whichPreprocessing==1 % pre-stim baseline (use for ERPs, EOG etc.)
-    destDir = [rDir '/' 'EEG_Prepro2_Prestim_Baseline'];
+    destDir = [rDir '\\' 'EEG_Prepro2_Prestim_Baseline'];
     thisBaseline = [-500 0]; 
     interpolateBadChannels=1;
 end
@@ -54,7 +54,7 @@ for iSub=1:length(subjects)
     for iSession=theseSessions
         
         % load data
-        load([eegPrepro1Dir '/' sprintf('sj%02d_se%02d_wtfEye_prepro1.mat',sjNum,iSession) ]); 
+        load([eegPrepro1Dir '\\' sprintf('sj%02d_se%02d_wtfEye_prepro1.mat',sjNum,iSession) ]); 
         
         % remove baseline
         EEG = pop_rmbase(EEG,thisBaseline); 
@@ -140,7 +140,7 @@ for iSub=1:length(subjects)
         disp('Saving data...');
         
         % save data
-        save([destDir '/' sprintf('sj%02d_se%02d_wtfEye.mat',sjNum,iSession)],'eeg','allBehStruct','demographicInfo','-v7.3')
+        save([destDir '\\' sprintf('sj%02d_se%02d_wtfEye.mat',sjNum,iSession)],'eeg','allBehStruct','demographicInfo','-v7.3')
         
         clear eeg EEG badChannels allBehStruct
         

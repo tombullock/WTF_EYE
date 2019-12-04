@@ -10,8 +10,8 @@ clear
 close all
 
 % load 
-rDir = '/Users/tombullock/Documents/Psychology/WTF_EYE';
-sourceDir = [rDir '/' 'IEM_Results_TT_Within'];
+rDir = 'C:\\Users\\BOSS-EEG\\Desktop\\WTF_EYE';
+sourceDir = [rDir '\\' 'IEM_Results_TT_Within'];
 
 % subjects
 subjects = [4,5];
@@ -38,7 +38,7 @@ thisAxisFontsize = 18;
 for iSub=1:length(subjects)
     sjNum=subjects(iSub);
     for iCond=1:4
-        load([sourceDir '/' sprintf('sj%02d_cond%02d_IEM.mat',sjNum,iCond)],'em_within')
+        load([sourceDir '\\' sprintf('sj%02d_cond%02d_IEM.mat',sjNum,iCond)],'em_within')
         all_real_total(iSub,iCond,:,:,:) = em_within.tfs.total;
         all_real_evoked(iSub,iCond,:,:,:) = em_within.tfs.evoked;        
         all_perm_total(iSub,iCond,:,:,:) = em_within.tfs_perm.total;       
@@ -60,7 +60,7 @@ for iCond=1:4
     
     subplot(2,2,iCond);
     surf(squeeze(mean(all_real_total(:,iCond,f,:,:),1)),'linestyle','none','FaceAlpha',1); 
-    title([mc ' / ' ec])
+    title([mc ' \\ ' ec])
     view(70,30)
     zlim([0 .7])
     colormap('jet')
