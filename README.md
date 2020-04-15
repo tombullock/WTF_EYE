@@ -1,5 +1,7 @@
 # SCAM (Space, Color, Attention and Memory) 
 
+*This is old and needs updating!*
+
 ## Project Goals: 
 
 In our previous "WTF" study we demonstrated that Process 2 emerges when participants are required to remember a spatial location in the absence of continuous sensory input (closed eyes).

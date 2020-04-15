@@ -8,11 +8,11 @@ Date last modified: 03.04.18
 %}
 %==========================================================================
 
-clear all
+clear 
 close all
 
 % define behavioral source
-sourceFolder = '/Users/tombullock1/Documents/Psychology/WM_TF/STATISTICS/BEHAVIOR/Bayes_Beh/Data';
+sourceFolder = '/home/waldrop/Desktop/WTF_EYE/Data_Compiled';
 
 % load behavioral data file (contains SD and Guess rate)
 load([sourceFolder '/' 'Modelling_Data.mat'])
@@ -29,8 +29,8 @@ for i=1:2
     end
     
     % convert into R "long" format
-    dumEyes = [zeros(18,1), ones(18,1), zeros(18,1), ones(18,1)];
-    dumMask = [zeros(18,1), zeros(18,1), ones(18,1), ones(18,1)];
+    dumMemory = [zeros(24,1), ones(24,1), zeros(24,1), ones(24,1)];
+    dumEyes = [zeros(24,1), zeros(24,1), ones(24,1), ones(24,1)];
     
     % create column vector of subjects
     sjNums = 1:size(thisData,1);
@@ -38,9 +38,9 @@ for i=1:2
     
     % use colon operator function to get into long format
     if i==1
-        modelSD_LF = [thisData(:), sjNums, dumEyes(:), dumMask(:)];
+        modelSD_LF = [thisData(:), sjNums, dumMemory(:), dumEyes(:)];
     else
-        modelGuess_LF = [thisData(:), sjNums, dumEyes(:), dumMask(:)];
+        modelGuess_LF = [thisData(:), sjNums, dumMemory(:), dumEyes(:)];
     end
     
 end

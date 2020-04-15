@@ -12,16 +12,21 @@ Either 1) Run IEM or 2) just get bandpassed data ...
 
 function IEM(subjects)
 
+
+if nargin==0
+    subjects = [1];
+end
+
 %clear
 %close all
 
 % set dirs
-rDir = 'C:\\Users\\BOSS-EEG\\Desktop\\WTF_EYE';
-eegDir = [rDir '\\' 'EEG_Prepro2_Avg_Baseline'];
-bandpassedDir = [rDir '\\' 'EEG_Bandpassed'];
-iemDir = [rDir '\\' 'IEM_Results_TT_Within' ];
+rDir = '/home/waldrop/Desktop/WTF_EYE';
+eegDir = [rDir '/' 'EEG_Prepro2_Avg_Baseline'];
+bandpassedDir = [rDir '/' 'EEG_Bandpassed'];
+iemDir = [rDir '/' 'IEM_Results_TT_Within_Tmp' ];
 % select subjects
-subjects = 4;
+%subjects = 4;
 
 % loop through subs
 for s=1:length(subjects)
@@ -32,6 +37,7 @@ for s=1:length(subjects)
     nChans = em.nChans;
     nBins = em.nBins;
     nIter = em.nIter;
+    nPerms = em.nPerms;
     nBlocks = em.nBlocks;
     freqs = em.frequencies;
     bands = em.bands;
@@ -44,7 +50,7 @@ for s=1:length(subjects)
     % merge data across sessions and split by condition
     for iSession=1:2
         
-        load([eegDir '\\' sprintf('sj%02d_se%02d_wtfEye.mat',sn,iSession)])
+        load([eegDir '/' sprintf('sj%02d_se%02d_wtfEye.mat',sn,iSession)])
         
         % reject artifact trials from eeg and beh
         eegs = eeg.data;
@@ -364,7 +370,6 @@ for s=1:length(subjects)
                 %==========================================================
                 
                 % Loop through permutations
-                nPerms=10;
                 for perm = 1:nPerms
                     tic % start timing permutation loop
                     %fprintf('Permutation %d out of %d/n',perm,nPerms);
@@ -595,9 +600,9 @@ for s=1:length(subjects)
         em.tfs_cross_alpha_perm.allB1=allB1_perm;
         em.tfs_cross_alpha_perm.allB2=allB2_perm;
         
-        save([iemDir '\\' sprintf('sj%02d_cond%02d_IEM.mat',sn,iCond)],'em','em_within','minCnt','nElectrodes','-v7.3')
+        save([iemDir '/' sprintf('sj%02d_cond%02d_IEM.mat',sn,iCond)],'em','em_within','minCnt','nElectrodes','-v7.3')
 
-        clear em_within minCnt nElectrodes tf_evoked tf_total tf_evoked_perm tf_total_perm allB1 allB2 allB1_perm allB2_Perm allC1 permInd perm permedBins permedPosBin
+        clear em_within minCnt nElectrodes tf_evoked tf_total tf_evoked_perm tf_total_perm allB1 allB2 allB1_perm allB2_perm allC1 permInd perm permedBins permedPosBin B1 B2
         
         em.blocks = [];
 

@@ -8,13 +8,13 @@ Date last modified: 10.30.19
 
 function Beh_Merge_Blocks(subjects)
 
-% % which subject(s)
-% subjects=[3,6];
+%which subject(s)
+subjects=[14];
 
 % set dirs
-rDir='C:\\Users\\BOSS-EEG\\Desktop\\WTF_EYE';
-behDir=[rDir '\\' 'Beh_Data'];
-behDirProcessed=[rDir '\\' 'Beh_Data_Processed'];
+rDir='/home/waldrop/Desktop/WTF_EYE/';
+behDir=[rDir '/' 'Beh_Data'];
+behDirProcessed=[rDir '/' 'Beh_Data_Processed'];
 
 % rename raw files
 Beh_Rename_Files(behDir)
@@ -24,10 +24,10 @@ for iSub=1:length(subjects)
     
     clear allTrialData
     
-    for iSession=1%:2
+    for iSession=1:2
         
         % find CB order
-        load([behDir '\\' sprintf('sj%02d_se%02d_bl01_mc01_ec02.mat',sjNum,iSession)]);
+        load([behDir '/' sprintf('sj%02d_se%02d_bl01_mc01_ec02.mat',sjNum,iSession)]);
         cbOrder=trialInfo(1).counterbalancingOrder;
         clear trialInfo
         
@@ -53,7 +53,7 @@ for iSub=1:length(subjects)
                 
                 clear trialInfo 
                 
-                load([behDir '\\' sprintf('sj%02d_se%02d_bl%02d_mc%02d_ec%02d.mat',sjNum,iSession,iBlock,mc,ec) ])
+                load([behDir '/' sprintf('sj%02d_se%02d_bl%02d_mc%02d_ec%02d.mat',sjNum,iSession,iBlock,mc,ec) ])
                 
                 if iBlock == 1
                     allTrialData(1:size(trialInfo,2)) = trialInfo;
@@ -70,7 +70,7 @@ for iSub=1:length(subjects)
         
     end
     
-    save([behDirProcessed '\\' sprintf('sj%02d_allBeh.mat',sjNum) ],'masterStruct','demographicInfo','cbOrder')
+    save([behDirProcessed '/' sprintf('sj%02d_allBeh.mat',sjNum) ],'masterStruct','demographicInfo','cbOrder')
     
 end
 

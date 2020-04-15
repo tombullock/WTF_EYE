@@ -11,12 +11,12 @@ clear
 close all
 
 % which directories?
-rDir = 'C:\\Users\\BOSS-EEG\\Desktop\\WTF_EYE';
-sourceDir = [rDir '\\' 'IEM_Results_TT_Cross'];
-destDir = [rDir '\\' 'Data_Compiled'];
+rDir = '/home/waldrop/Desktop/WTF_EYE';
+sourceDir = [rDir '/' 'IEM_Results_TT_Cross'];
+destDir = [rDir '/' 'Data_Compiled'];
 
 % which subjects?
-subs = [4,5];
+subs = [1:7,9:14,16:20,22:27,31];
 
 % compile slope data
 for iSub=1:length(subs)
@@ -24,16 +24,45 @@ for iSub=1:length(subs)
     sjNum=subs(iSub);
     
     % load data
-    load([sourceDir '\\' sprintf('sj%02d_IEM_Alpha_CrossTT.mat',sjNum)])
+    load([sourceDir '/' sprintf('sj%02d_IEM_Alpha_CrossTT.mat',sjNum)])
     allTF_real_total(iSub,:,:,:)=em.rSl.total; %subs x cross x tr x te
+    allTF_perm_total(iSub,:,:,:)=em.pSl.total; 
     clear em 
+    
 end
+
+% create a t-test mask
+tTestMaskOnOff=1;
+
+if tTestMaskOnOff
+    ttestAll = zeros(size(allTF_real_total,2),size(allTF_real_total,3),size(allTF_real_total,4));
+    
+    for iCross=1:size(allTF_real_total,2)
+        for iTr=1:size(allTF_real_total,3)
+            for iTe=1:size(allTF_real_total,4)
+                ttestAll(iCross,iTr,iTe)=ttest(allTF_real_total(:,iCross,iTr,iTe),allTF_perm_total(:,iCross,iTr,iTe));
+            end
+        end
+    end
+    
+end
+
+
+
+
+% zero out any ns values
+
+%
+%allTF_real_total
+
+
+   
 
 % plot all train/test combos
 h=figure('units','normalized','outerposition',[0 0 1 1]);
 xNew=-500:2501/40:2000;
 yNew=xNew;
-cLims = [0 .002];
+cLims = [0 .004];
 plotIdx = 0;
 for k=[ 1,6,11,16,...
         2,5,9,13,...
@@ -73,21 +102,58 @@ for k=[ 1,6,11,16,...
     elseif  testCond==4; testLabel = 'Color-Move';
     end
     
-    tl = ['Train: ' trainLabel ' \\ ' 'Test: ' testLabel];
+    tl = ['Train: ' trainLabel ' / ' 'Test: ' testLabel];
     
     % create plots
     %subplot(4,4,k)
     subplot(4,4,plotIdx)
-    imagesc(xNew,yNew,squeeze(mean(allTF_real_total(:,k,:,:),1)),cLims) %cLims
+    
+    
+    dataForPlot = squeeze(mean(allTF_real_total(:,k,:,:),1));
+    
+    if tTestMaskOnOff
+        for iTr=1:size(dataForPlot,1)
+            for iTe=1:size(dataForPlot,2)
+                
+                if squeeze(ttestAll(k,iTr,iTe))==0
+                    dataForPlot(iTr,iTe)=0;
+                end
+                
+            end
+        end
+    end
+    
+    imagesc(xNew,yNew,dataForPlot,cLims);% ,cLims
+    
+%    imagesc(xNew,yNew,squeeze(mean(allTF_real_total(:,k,:,:),1)),cLims) %cLims
+    
     ylabel('Training')
     xlabel('Testing')
     pbaspect([1,1,1])
     title(tl)
     colorbar
+    
+    % target onset
     vline(0,'k--')
     hline(0,'k--')
+    
+    % target offset
     vline(250,'k--')
     hline(250,'k--')
+    
+    % first eye movement (R or L)
+    vline(500,'w--')
+    hline(500,'w--')
+    
+    % second eye movement (R or L)
+    vline(1000,'w--')
+    hline(1000,'w--')
+    
+    % third eye movement (back to fix)
+    vline(1500,'w--')
+    hline(1500,'w--')
+    
+    clear dataForPlot
     
     
 end

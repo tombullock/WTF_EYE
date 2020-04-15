@@ -13,14 +13,17 @@ Make sure all subfolders exist
 %}
 
 %% which subs to process?
-subjects = [4,5];
+subjects = [];
+%subjects = [7,9];
+
 
 %% Trial Data 
-Beh_Merge_Blocks(subjects)
+%Beh_Merge_Blocks(subjects)
 
 %% EEG
-EEG_Preprocessing1(subjects)
+%EEG_Preprocessing1(subjects)
 EEG_Preprocessing2(subjects)
+
 IEM(subjects)
 IEM_Compute_Compile_Slopes_Within(subjects)
 IEM_Cross_TT(subjects) 
