@@ -1,6 +1,6 @@
 close all
 
-plotDir = '/home/waldrop/Desktop/WTF_EYE/Plots';
+plotDir = 'D:\\WTF_EYE\\Plots';
 
 locXcat1 = [locXYstruct(1).locX;locXYstruct(5).locX ];
 locXcat2 = [locXYstruct(2).locX;locXYstruct(6).locX ];

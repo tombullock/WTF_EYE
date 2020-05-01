@@ -22,7 +22,7 @@ close all
 cd('/home/waldrop/Desktop/WTF_EYE/Analysis_Scripts');
 
 % choose subjects
-subjects = [27];%[1:6];
+subjects = [7];%[1:6];
 
 % were data pre-merged? (subject,session on each row)
 %preMergedDataSubjectsSessions = [1,1;3,2];
@@ -42,7 +42,7 @@ for iSub=1:length(subjects)
     load([behDir '/' sprintf('sj%02d_allBeh.mat',sjNum)])
     
     % loop through sessions
-    for iSession=2
+    for iSession=1
         
 %         % was data file pre-merged?
 %         if ismember(sjNum,preMergedDataSubjectsSessions)

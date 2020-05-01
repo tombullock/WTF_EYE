@@ -8,18 +8,17 @@ clear
 close all
 
 % set dirs
-sourceDir = '/home/waldrop/Desktop/WTF_EYE/Data_Compiled';
+sourceDir = 'D:\\WTF_EYE\\Data_Compiled';
 
 % load data
-load([sourceDir '/' 'Modelling_Data.mat'])
+load([sourceDir '\\' 'Modelling_Data.mat'])
 
 % generate plots
-%h=figure;
-h=figure('units','normalized','OuterPosition',[0,0,2,2]);
+h=figure;
 for iPlot=1:2
     
-   if       iPlot==1; theseData = modelSD; thisTitle = 'Precision'; thisYlim = [6,14]; thisYtick = 6:2:14;
-   elseif   iPlot==2; theseData = modelGuess; thisTitle = 'Guess Rate'; thisYlim = [0,.05]; thisYtick = 0:.01:.05;
+   if       iPlot==1; theseData = modelSD; thisTitle = 'Precision';
+   elseif   iPlot==2; theseData = modelGuess; thisTitle = 'Guess Rate';
    end
    subplot(1,2,iPlot)
    
@@ -31,19 +30,12 @@ for iPlot=1:2
    thisMean = std(theseData,0,1)/sqrt(size(theseData,1));
    
    %set(gca,xticklabels,{'1','2','3','4'})
-    
-   % kamryn original
-   %xticklabels({'S/F','S/M','C/F','C/M'})
-   
-   % tom correction
-   xticklabels({'S/F','C/F','S/M','C/M'})
+
+   xticklabels({'S/F','S/M','C/F','C/M'})
    
    title(thisTitle);
    box('off')
-   set(gca,'fontsize',28)
-   
-   ylim(thisYlim)
-   yticks(thisYtick);
+   set(gca,'fontsize',18)
    
 end
 

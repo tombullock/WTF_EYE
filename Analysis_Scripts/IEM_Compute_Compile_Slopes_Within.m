@@ -22,10 +22,10 @@ end
 %close all
 
 % set dirs
-rDir = '/home/waldrop/Desktop/WTF_EYE';
-sourceDir = [rDir '/' 'IEM_Results_TT_Within_Tmp' ];
+rDir = 'D:\\WTF_EYE';
+sourceDir = [rDir '\\' 'IEM_Results_TT_Within_Tmp' ];
 %destDir = [rDir '\\' 'IEM_Slopes_TT_Within'];
-destDirCompiled = [rDir '/' 'Data_Compiled'];
+destDirCompiled = [rDir '\\' 'Data_Compiled'];
 
 % subjects 
 %subjects = [4,5];
@@ -40,7 +40,7 @@ for iSub=1:length(subjects)
     for iCond=1:4
        
         % load the "within" data only
-        load([sourceDir '/' sprintf('sj%02d_cond%02d_IEM.mat',sjNum,iCond)],'em_within')
+        load([sourceDir '\\' sprintf('sj%02d_cond%02d_IEM.mat',sjNum,iCond)],'em_within')
         
         % real total data
         for f = 1:size(em_within.tfs.total,1)
@@ -99,7 +99,7 @@ for iSub=1:length(subjects)
 end
 
 
-save([destDirCompiled '/' 'IEM_Slopes_Within.mat'],...
+save([destDirCompiled '\\' 'IEM_Slopes_Within.mat'],...
     'allSlopes_perm_evoked',...
     'allSlopes_perm_total',...
     'allSlopes_real_evoked',...

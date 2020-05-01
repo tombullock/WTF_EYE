@@ -2,13 +2,13 @@ clear
 close all
 
 % set dirs
-sourceDir = '/home/waldrop/Desktop/WTF_EYE/EYE/Synchronized_EYE';
+sourceDir = 'D:\\WTF_EYE\\EYE\\Synchronized_EYE';
 
 %subjects
-sjNum=25;
+sjNum=11;
 
 % load data
-load(sprintf([sourceDir '/sj%02d_eye_beh_sync.mat'],sjNum))
+load(sprintf([sourceDir '\\sj%02d_eye_beh_sync.mat'],sjNum))
 
 % get example moving condition (cat session 1&2)
      %Location
@@ -141,7 +141,7 @@ end
 
 close all
 
-plotDir = '/home/waldrop/Desktop/WTF_EYE/Plots';
+plotDir = 'D:\\WTF_EYE\\Plots';
 
 locXcat1 = [locXYstruct(1).locX;locXYstruct(5).locX ];
 locXcat2 = [locXYstruct(2).locX;locXYstruct(6).locX ];
@@ -178,4 +178,4 @@ for p=1:4
      
 end
 
-saveas(h,[plotDir '/' 'Eye_Movements_Loc_sj25.jpeg'],'jpeg')
+saveas(h,[plotDir '/' 'Eye_Movements_Loc_sj11.jpeg'],'jpeg')

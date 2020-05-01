@@ -13,8 +13,9 @@ close all
 rDir = '/home/waldrop/Desktop/WTF_EYE';
 sourceDir = [rDir '/' 'IEM_Results_TT_Within_Tmp'];
 
-% subjects
-subjects = [1:7,9:14,16:20,22:27,31];
+% subjects [TOM ADDED SUBJECT 7 BACK IN}!
+subjects = [1:6,9:14,16:20,22:27,31];
+subjects = 2;
 
 % set up plot
 thisSR=256;

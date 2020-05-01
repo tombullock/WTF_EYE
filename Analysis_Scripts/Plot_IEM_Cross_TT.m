@@ -16,7 +16,8 @@ sourceDir = [rDir '/' 'IEM_Results_TT_Cross'];
 destDir = [rDir '/' 'Data_Compiled'];
 
 % which subjects?
-subs = [1:7,9:14,16:20,22:27,31];
+subs = [1:6,9:14,16:20,22:27,31];
+subs = 7
 
 % compile slope data
 for iSub=1:length(subs)
@@ -102,7 +103,7 @@ for k=[ 1,6,11,16,...
     elseif  testCond==4; testLabel = 'Color-Move';
     end
     
-    tl = ['Train: ' trainLabel ' / ' 'Test: ' testLabel];
+    tl = ['Train: ' trainLabel ' \\ ' 'Test: ' testLabel];
     
     % create plots
     %subplot(4,4,k)

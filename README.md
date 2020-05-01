@@ -41,3 +41,16 @@ Use `WRAPPER.m` function to automatically process Trial and EEG data
 
 `Plot_IEM_Cross_TT` Generate IEM heatmaps (training/testing across all timespoints and across all conditions)
 
+
+## Eye Data Analysis
+
+`Process_Eye_Data1` Epoch eye data around stimulus trigger 102 and create matrix of all trials
+
+`Process_Eye_Data2` Sync epoched eye data (all trials) with trial data
+
+`Process_Eye_Data3` Remove broken trials and epoch around targets
+
+`Process_Eye_Data4` Manually select stable eye time segments post EM1, EM2 and EM3 cues and save indices
+
+ 
+

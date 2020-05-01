@@ -20,16 +20,16 @@ close all
 
 % add dependencies
 %addpath(genpath('\\home\\bullock\\WTF\\Behavior\\visionlab-MemToolbox-fea8609'))
-addpath(genpath('/home/waldrop/Desktop/WTF_EYE/Dependancies/visionlab-MemToolbox-fea8609'))
+addpath(genpath('D:\\WTF_EYE\\Dependancies\\visionlab-MemToolbox-fea8609'))
 
 % set dirs
-rDir='/home/waldrop/Desktop/WTF_EYE';
+rDir='D:\\WTF_EYE';
 %sourceDir = '\\home\\bullock\\WTF\\Behavior\\Beh_Merged';
-sourceDir = [rDir '/' 'Beh_Data_Processed'];
+sourceDir = [rDir '\\' 'Beh_Data_Processed'];
 %destDirCompiledData = '\\home\\bullock\\WTF\\Data_Compiled';
-destDirCompiledData = [rDir '/' 'Data_Compiled'];
+destDirCompiledData = [rDir '\\' 'Data_Compiled'];
 %destDirErrorsData = '\\home\\bullock\\WTF\\Behavior\\Beh_Errors';
-destDirErrorsData = [rDir '/' 'Beh_Errors'];
+destDirErrorsData = [rDir '\\' 'Beh_Errors'];
 
 %set verbosity (0=just get values, 2=get plots for each individual\\cond)
 setVerbosity = 0;
@@ -44,7 +44,7 @@ for subjLoop=1:size(subjectNumbers,2)
         
    sjNum= subjectNumbers(subjLoop);
    
-   load([sourceDir '/' sprintf('sj%02d_allBeh.mat',sjNum)])
+   load([sourceDir '\\' sprintf('sj%02d_allBeh.mat',sjNum)])
    
    % merge  data across 2 sessions
    for i=cbOrder
@@ -107,13 +107,13 @@ for subjLoop=1:size(subjectNumbers,2)
        modelSD(subjLoop,condLoop) = sd;
        
        %save error vector for other analyses
-       save([destDirErrorsData '/' sprintf('sj%d%02d_beh_errors.mat',sjNum,condLoop)],'x','model','fit')
+       save([destDirErrorsData '\\' sprintf('sj%d%02d_beh_errors.mat',sjNum,condLoop)],'x','model','fit')
    end
    
 end
  
 % save summary fit data stats
-save([destDirCompiledData '/' 'Modelling_Data.mat'],'modelGuess','modelSD','modelMu');
+save([destDirCompiledData '\\' 'Modelling_Data.mat'],'modelGuess','modelSD','modelMu');
 
 
 
