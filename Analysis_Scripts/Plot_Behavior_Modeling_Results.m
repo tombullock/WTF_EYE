@@ -8,10 +8,10 @@ clear
 close all
 
 % set dirs
-sourceDir = 'D:\\WTF_EYE\\Data_Compiled';
+sourceDir = '/home/waldrop/Desktop/WTF_EYE/Data_Compiled';
 
 % load data
-load([sourceDir '\\' 'Modelling_Data.mat'])
+load([sourceDir '/' 'Modelling_Data.mat'])
 
 % generate plots
 h=figure;

@@ -53,6 +53,8 @@ thisTime=500; % EM1 cue
 [~, EM1cue] = min(abs(thisTime-times));
 thisTime=1000; % EM2 cue
 [~, EM2cue] = min(abs(thisTime-times));
+thisTime=1250;
+[~, halfRet] = min(abs(thisTime-times));
 thisTime=1500; % EM3 cue
 [~, EM3cue] = min(abs(thisTime-times));
 thisTime=2000; % end retention period
@@ -65,18 +67,22 @@ allBand = allBand - mean(allBand(:,:,:,:,baseStart:probeOn-1),5);
 allBand = abs(allBand).^2;
     
 % loop through and plot differnet time segments
-for timeSegmentToPlot=1:2
+for timeSegmentToPlot=1:3
     
     
     % time segment settings
     if timeSegmentToPlot==1
         thisTimeSegment = probeFinal50ms:probeOff;
-        thisTimeSegmentLabel = 'Probe (200-250ms)';
+        thisTimeSegmentLabel = 'Stimulus On (0.2-0.25s)';
         thisTimeSegmentTitle = 'Probe';
     elseif timeSegmentToPlot==2
-        thisTimeSegment = EM1cue:retEnd;
-        thisTimeSegmentLabel = 'Retention (500 - 2000 ms)';
-        thisTimeSegmentTitle = 'Retention';
+        thisTimeSegment = EM1cue:halfRet;
+        thisTimeSegmentLabel = 'Early Retention (0.5-1.25s)';
+        thisTimeSegmentTitle = 'Early Retention';
+    elseif timeSegmentToPlot==3
+        thisTimeSegment = halfRet:retEnd;
+        thisTimeSegmentLabel = 'Late Retention (1.25-2s)';
+        thisTimeSegmentTitle = 'Late Retention';        
     end
     
     
@@ -104,7 +110,7 @@ for timeSegmentToPlot=1:2
             theseData = squeeze(mean(mean(allBandNorm(:,iCond,iLoc,:,thisTimeSegment),1),5));
             
             %headplot(theseData,'wtfSpline.spl','view','back','maplimits',theseMapLimits,'electrodes',showElects) %'cbar',0,
-            ax(iLoc)=headplot(theseData,'wtfSpline.spl','view','back','electrodes',showElects,'maplimits',theseMapLimits); %'cbar',0,
+            ax(iLoc)=headplot(theseData,'wtfSpline.spl','view','back','electrodes',showElects,'maplimits',theseMapLimits) %'cbar',0,
             
             % set placement for each condition's topos
             if iCond==1
@@ -148,7 +154,7 @@ for timeSegmentToPlot=1:2
         elseif  iCond==3; condTitle = 'S/M';
         elseif  iCond==4; condTitle = 'C/M';
         end
-        annotation('textbox', [centerX+.04,centerY+.11, 0,0], 'string', condTitle,'FontSize',48);
+        annotation('textbox', [centerX+.04,centerY+.11, 0,0], 'string', condTitle,'FontSize',36);
         
         clear allBandNorm
         
@@ -156,16 +162,20 @@ for timeSegmentToPlot=1:2
     
     % add title
     if timeSegmentToPlot==1
-        figureTitlePosition=[.35,.97,0,0];
+        figureTitlePosition=[.25,.97,0,0];
     elseif timeSegmentToPlot==2
-        figureTitlePosition=[.30,.97,0,0];
+        figureTitlePosition=[.25,.97,0,0];
+    elseif timeSegmentToPlot==3
+        figureTitlePosition=[.25,.97,0,0];        
     end
-    annotation('textbox',figureTitlePosition, 'string', thisTimeSegmentLabel,'FontSize',48,'FitBoxToText','on','LineStyle','none');
+    annotation('textbox',figureTitlePosition, 'string', thisTimeSegmentLabel,'FontSize',36,'FitBoxToText','on','LineStyle','none');
     
     if timeSegmentToPlot==1
         saveas(h,[plotDir '/' 'Alpha_Topos_' thisTimeSegmentTitle '.png'],'png')
     elseif timeSegmentToPlot==2
         saveas(h,[plotDir '/' 'Alpha_Topos_' thisTimeSegmentTitle '.png'],'png')
+    elseif timeSegmentToPlot==3
+        saveas(h,[plotDir '/' 'Alpha_Topos_' thisTimeSegmentTitle '.png'],'png')        
     end
     
     clear ax theseData allBandNorm

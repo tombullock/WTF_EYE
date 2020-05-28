@@ -11,8 +11,6 @@ close all
 sourceDir = '/home/waldrop/Desktop/WTF_EYE/EYE/Synchronized_EYE_UPDATED';
 destDir = '/home/waldrop/Desktop/WTF_EYE/EYE/Eye_Sync_Final';
 
-% set up subject loop
-%subjects = 
 
 sjNum=2;
 

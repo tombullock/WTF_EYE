@@ -23,19 +23,19 @@ close all
 addpath(genpath('D:\\WTF_EYE\\Dependancies\\visionlab-MemToolbox-fea8609'))
 
 % set dirs
-rDir='D:\\WTF_EYE';
+rDir='/home/waldrop/Desktop/WTF_EYE';
 %sourceDir = '\\home\\bullock\\WTF\\Behavior\\Beh_Merged';
-sourceDir = [rDir '\\' 'Beh_Data_Processed'];
+sourceDir = [rDir '/' 'Beh_Data_Processed'];
 %destDirCompiledData = '\\home\\bullock\\WTF\\Data_Compiled';
-destDirCompiledData = [rDir '\\' 'Data_Compiled'];
+destDirCompiledData = [rDir '/' 'Data_Compiled'];
 %destDirErrorsData = '\\home\\bullock\\WTF\\Behavior\\Beh_Errors';
-destDirErrorsData = [rDir '\\' 'Beh_Errors'];
+destDirErrorsData = [rDir '/' 'Beh_Errors'];
 
 %set verbosity (0=just get values, 2=get plots for each individual\\cond)
 setVerbosity = 0;
 
 % set subject numbers
-subjectNumbers = [1:6,9:14,16:20,22:27,31];
+subjectNumbers = [1:7,9:14,16:20,22:27,31];
 
 %subjectNumbers = 5; % somthing up with sj05
 
@@ -44,7 +44,7 @@ for subjLoop=1:size(subjectNumbers,2)
         
    sjNum= subjectNumbers(subjLoop);
    
-   load([sourceDir '\\' sprintf('sj%02d_allBeh.mat',sjNum)])
+   load([sourceDir '/' sprintf('sj%02d_allBeh.mat',sjNum)])
    
    % merge  data across 2 sessions
    for i=cbOrder

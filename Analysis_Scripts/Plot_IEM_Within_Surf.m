@@ -14,21 +14,21 @@ rDir = '/home/waldrop/Desktop/WTF_EYE';
 sourceDir = [rDir '/' 'IEM_Results_TT_Within_Tmp'];
 
 % subjects [TOM ADDED SUBJECT 7 BACK IN}!
-subjects = [1:6,9:14,16:20,22:27,31];
-subjects = 2;
+subjects = [1:7,9:14,16:20,22:27,31];
+%subjects = 31; % good strong response - use for eye-data?
 
 % set up plot
 thisSR=256;
 xNewTick = [1, thisSR*.5, thisSR*1,  thisSR*1.5, thisSR*2, thisSR*2.5];
-xNewTickLabel = ['-500';'  0 ';' 500';'1000';'1500';'2000'];
+xNewTickLabel = ['-0.5';'  0 ';' 0.5';'  1 ';' 1.5';'  2 '];
 xNewLim = [1 640];
 yNewTick = [1 2 3 4 5 6 7 8];
 zNewTick = [.2 .4 .6];
 zNewTickLabel = zNewTick;
-yNewTickLabel = ['-180';'    ';'-90 ';'    ';' 0  ';'    ';' 90 ';'    '];
+yNewTickLabel = ['-180';'    ';'-90 ';'    ';' 0  ';' 45 ';'    ';' 135'];
 yNewLim = [1 8];
 colorBar = [0 .8];
-thisAxisFontsize = 18;
+thisAxisFontsize = 20;
 
 % % disable tick labels
 % xNewTickLabel = [];
@@ -61,6 +61,9 @@ for iCond=1:4
     
     subplot(2,2,iCond);
     surf(squeeze(mean(all_real_total(:,iCond,f,:,:),1)),'linestyle','none','FaceAlpha',1); 
+
+    ylabel('Time(s)')
+    zlabel('Chan. Resp.(uV2)')
     title([mc ' / ' ec])
     view(70,30)
     zlim([0 .7])

@@ -16,7 +16,7 @@ sourceDir = '/home/waldrop/Desktop/WTF_EYE/IEM_Results_TT_Cross';
 destDir = '/home/waldrop/Desktop/WTF_EYE/Data_Compiled';
 
 % select subs
-subjects = [1:6,9:14,16:20,22:27,31];
+subjects = [1:7,9:14,16:20,22:27,31];
 
 for iSub=1:length(subjects)
     sjNum = subjects(iSub);
@@ -24,10 +24,6 @@ for iSub=1:length(subjects)
     all_rSl(iSub,:,:,:) = em.rSl.total;
     all_pSl(iSub,:,:,:) = em.pSl.total;
 end
-
-
-
-
 
 % save compiled data
 save([destDir '/' 'Cross_TT_Slope_MASTER.mat'],'all_rSl','all_pSl','-v7.3')

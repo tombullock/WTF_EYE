@@ -16,8 +16,8 @@ sourceDir = [rDir '/' 'IEM_Results_TT_Cross'];
 destDir = [rDir '/' 'Data_Compiled'];
 
 % which subjects?
-subs = [1:6,9:14,16:20,22:27,31];
-subs = 7
+subs = [1:7,9:14,16:20,22:27,31];
+%
 
 % compile slope data
 for iSub=1:length(subs)

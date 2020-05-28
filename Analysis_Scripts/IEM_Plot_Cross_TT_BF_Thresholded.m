@@ -12,12 +12,12 @@ clear
 close all
 
 % select thresholding type (0=none, 1=p<.05,2=BF)
-thresholdType=2;
+thresholdType=1;
 
 % set dirs
-slopeDataDir = '/Users/tombullock/Documents/Psychology/WTF_EYE/Data_Compiled';
-bfTestDir = '/Users/tombullock/Documents/Psychology/WTF_EYE/R_Results';
-plotDir = '/Users/tombullock/Documents/Psychology/WTF_EYE/Plots';
+slopeDataDir = '/home/waldrop/Desktop/WTF_EYE/Data_Compiled';
+bfTestDir = '/home/waldrop/Desktop/WTF_EYE/R_Results';
+plotDir = '/home/waldrop/Desktop/WTF_EYE/Plots';
 
 % load matrices of real and permuted slopes from cross TT analysis (from
 % matlab cluster)
@@ -101,19 +101,19 @@ for k=[ 1,6,11,16,...
     elseif  k==16; trainCond=4; testCond=4;
     end
     
-    if      trainCond==1; trainLabel = 'Spatial-Fix';
-    elseif  trainCond==2; trainLabel = 'Color-Fix';
-    elseif  trainCond==3; trainLabel = 'Spatial-Move';
-    elseif  trainCond==4; trainLabel = 'Color-Move';
+    if      trainCond==1; trainLabel = 'S/F';
+    elseif  trainCond==2; trainLabel = 'C/F';
+    elseif  trainCond==3; trainLabel = 'S/M';
+    elseif  trainCond==4; trainLabel = 'C/M';
     end
     
-    if      testCond==1; testLabel = 'Spatial-Fix';
-    elseif  testCond==2; testLabel = 'Color-Fix';
-    elseif  testCond==3; testLabel = 'Spatial-Move';
-    elseif  testCond==4; testLabel = 'Color-Move';
+    if      testCond==1; testLabel = 'S/F';
+    elseif  testCond==2; testLabel = 'C/F';
+    elseif  testCond==3; testLabel = 'S/M';
+    elseif  testCond==4; testLabel = 'C/M';
     end
     
-    tl = ['Train: ' trainLabel ' / ' 'Test: ' testLabel];
+    tl = ['Train: ' trainLabel ' --> ' 'Test: ' testLabel];
     
     % create subplots
     subplot(4,4,plotIdx)
@@ -136,15 +136,15 @@ for k=[ 1,6,11,16,...
         'YTick',axisTicks,...
         'XTickLabel',axisLabels,...
         'YTickLabel',axisLabels,...
-        'FontSize',18,...
+        'FontSize',6,...
         'LineWidth',1.5)
     
-    ylabel('Training')
-    xlabel('Testing')
+    ylabel('Training (s)')
+    xlabel('Testing (s)')
     pbaspect([1,1,1])
     title(tl)
     colormap('jet')
-    %colorbar % comment to remove c-bars for pub
+    colorbar % comment to remove c-bars for pub
     
     % target onset
     vline(0,'k--')

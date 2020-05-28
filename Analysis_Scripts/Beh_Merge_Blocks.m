@@ -9,7 +9,7 @@ Date last modified: 10.30.19
 function Beh_Merge_Blocks(subjects)
 
 %which subject(s)
-subjects=[14];
+subjects=[7];
 
 % set dirs
 rDir='D:\\WTF_EYE';

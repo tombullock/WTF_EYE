@@ -42,7 +42,7 @@ obsTcolor = [0.04 0.52 .78];
 % axis limits and labels
 thisSR = 256; % sample rate
 xNewTick = [1, thisSR*.25, thisSR*.5, thisSR*.75, thisSR*1, thisSR*1.25, thisSR*1.5, thisSR*1.75, thisSR*2, thisSR*2.25, thisSR*2.5];
-xNewTickLabel = ['-500';'-250';'  0 ';' 250';' 500';' 750';'1000';'1250';'1500';'1750';'2000'];
+xNewTickLabel = ['-0.5';'-.25';'  0 ';' .25';' 0.5';' .75';'  1 ';'1.25';' 1.5';'1.75';'  2 '];
 thisYlim = [-.0017 .004];%'auto';
 
 % plot total slope
@@ -94,12 +94,12 @@ for iCond=1:4
     ylabel('Slope','FontSize',yLabelFontSize)
     box('off')
     pbaspect([3 1 1])
-    title('SCAM - CTF Slopes','FontSize',titleFontSize)
+    title('CRF Slopes','FontSize',titleFontSize)
 end
 
 % set legend
 h_legend = legend(realLineIdx,'Spatial/Fix','Color/Fix','Spatial/Move','Color/Move');
-set(h_legend,'FontSize',20);
+set(h_legend,'FontSize',16);
 
 % save figure
 saveas(h,[destDir '/' 'CTF_Slope_Alpha_Within.jpeg'],'jpeg')

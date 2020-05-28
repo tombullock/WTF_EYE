@@ -32,7 +32,7 @@ cd('/home/waldrop/Desktop/WTF_EYE/Analysis_Scripts');
 theseSessions=1:2;
 
 % show rejected trials? (0=no,1=yes)
-showRejTrials=1;
+showRejTrials=0;
 
 % set dirs
 rDir = '/home/waldrop/Desktop/WTF_EYE';

@@ -14,11 +14,11 @@ To Do: build in the permuted data analysis
 %close all
 
 % set source dir 
-sourceDir  = 'D:\\WTF_EYE\\IEM_Results_TT_Cross';
+sourceDir  = '/home/waldrop/Desktop/WTF_EYE/IEM_Results_TT_Cross';
 destDir = sourceDir;
 
 % select subjects
-subjects = [1:6,9:12,16:19,20,22,23];
+subjects = [1:7,9:12,16:19,20,22,23];
 
 % loop through all training\testing combinations
 for iSub=1:length(subjects)
@@ -70,7 +70,7 @@ for iSub=1:length(subjects)
 
     quant = 'Slope';
     
-    save([destDir '\\' sprintf('sj%02d_IEM_Alpha_CrossTT.mat',sjNum)],'em','quant');
+    save([destDir '/' sprintf('sj%02d_IEM_Alpha_CrossTT.mat',sjNum)],'em','quant');
     
 end
 

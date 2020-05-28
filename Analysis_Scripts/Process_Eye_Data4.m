@@ -22,7 +22,7 @@ destDir = '/home/waldrop/Desktop/WTF_EYE/EYE/Eye_Fixation_Mats';
 plotDir = '/home/waldrop/Desktop/WTF_EYE/EYE/Eye_Fixation_Plots';
 
 % select subject and condition
-sjNum=2;
+sjNum=31;
 thisCondition=3;
 
 
@@ -52,7 +52,7 @@ nTrials = length(eyeStruct(iCond).trialData);
 % get times
 times = eyeStruct.times;
 
-for iTrial = 1:nTrials
+for iTrial = 239:nTrials
     
     figure('units','normalized','outerposition',[0 0 2 2])
     
@@ -229,12 +229,16 @@ for iTrial = 1:nTrials
     clear em1_idx fix1_start fix1_end fix2_start fix2_end fix3_start fix3_end patchX patchY
     
     % save figure
-    saveas(fig,[plotDir '/' sprintf('sj%02d_cond%02d_trial%02d.jpeg',sjNum,iCond,iTrial)],'jpeg')
+    %saveas(fig,[plotDir '/' sprintf('sj%02d_cond%02d_trial%02d.jpeg',sjNum,iCond,iTrial)],'jpeg')
     
     % close figure
     close
     
 end
 
+% save trial data [corrected, was wrong for sj31cond03
+trialData = eyeStruct(iCond).trialData;
+
+
 % save data
-save([destDir '/' sprintf('sj%02d_cond%02d.jpeg',sjNum,iCond)],'fixStruct')
+save([destDir '/' sprintf('sj%02d_cond%02d.mat',sjNum,iCond)],'fixStruct','trialData','times')

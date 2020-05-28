@@ -27,4 +27,6 @@ EEG_Preprocessing2(subjects)
 IEM(subjects)
 IEM_Compute_Compile_Slopes_Within(subjects)
 IEM_Cross_TT(subjects) 
+IEM_Cross_TT_Compile_Slopes
+
 
