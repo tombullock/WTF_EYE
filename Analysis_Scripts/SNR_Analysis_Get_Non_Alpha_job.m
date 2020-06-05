@@ -10,23 +10,20 @@ subjects = [1:7,9:14,16:20,22:27,31];
 
 
 % run in serial for debugging (0) or parallel (1)
-runInParallel=1;
+runInParallel=0;
 
 if runInParallel
-    disp('PARALLEL PROCESSING ACTIVATED!'); pause(3);
     s = parcluster();
     s.ResourceTemplate = '--ntasks-per-node=6 --mem=65536';
     job = createJob(s);
-else
-    disp('SERIAL PROCESSING...'); pause(3);
 end
 
 for iSub = 1:length(subjects)
     sjNum = subjects(iSub);
     if runInParallel
-        createTask(job,@IEM_Cross_TT,0,{sjNum});
+        createTask(job,@SNR_Analysis_Get_Non_Alpha,0,{sjNum});
     else
-        IEM_Cross_TT(sjNum) 
+        SNR_Analysis_Get_Non_Alpha(sjNum) 
     end
 end
 

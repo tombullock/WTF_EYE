@@ -10,8 +10,8 @@ function em = IEM_Settings
 % parameters to set
 em.nChans = 8; % # of channels
 em.nBins = em.nChans; % # of stimulus bins
-em.nIter = 10; % # of iterations 
-em.nPerms = 10; % # of permutations (for permuted datasets)
+em.nIter = 10; % # of iterations [UP THIS TO 10 EVENTUALLY]
+em.nPerms = 3; % # of permutations (for permuted datasets) [KEEP THIS AT 3 OR FILES GET TOO BIG]
 em.nBlocks = 3; % # of blocks for cross-validation
 em.frequencies = [8,12;4,7]; % frequency bands to analyze
 em.bands = {'Alpha','Theta'};

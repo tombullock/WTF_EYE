@@ -14,6 +14,7 @@ runInParallel=1;
 
 if runInParallel
     s = parcluster();
+    s.ResourceTemplate = '--ntasks-per-node=6 --mem=65536';
     job = createJob(s);
 end
 

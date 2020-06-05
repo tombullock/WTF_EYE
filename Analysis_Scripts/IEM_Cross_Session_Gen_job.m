@@ -13,20 +13,17 @@ subjects = [1:7,9:14,16:20,22:27,31];
 runInParallel=1;
 
 if runInParallel
-    disp('PARALLEL PROCESSING ACTIVATED!'); pause(3);
     s = parcluster();
     s.ResourceTemplate = '--ntasks-per-node=6 --mem=65536';
     job = createJob(s);
-else
-    disp('SERIAL PROCESSING...'); pause(3);
 end
 
 for iSub = 1:length(subjects)
     sjNum = subjects(iSub);
     if runInParallel
-        createTask(job,@IEM_Cross_TT,0,{sjNum});
+        createTask(job,@IEM_Cross_Session_Gen,0,{sjNum});
     else
-        IEM_Cross_TT(sjNum) 
+        IEM_Cross_Session_Gen(sjNum) 
     end
 end
 

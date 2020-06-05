@@ -105,7 +105,7 @@ for iPlot=1:3
     elseif  iPlot==3; thisTimeSegmentLabel = 'Late Retention (1.25-2s)';
     end
     
-    subplot(3,1,iPlot)
+    subplot(1,3,iPlot)
     
     for i=1:4
        if       i==1; thisColor = 'r';
@@ -133,7 +133,7 @@ for iPlot=1:3
         'xTick',[],...
         'box','off',...
         'linewidth',1.5,...
-        'fontsize',18)
+        'fontsize',16)
     
     title(thisTimeSegmentLabel);
     
@@ -166,15 +166,30 @@ for iData=1:3
 end
 
 % save data
-save([destDir '/' 'Alpha_Lateralization_Data.mat'],'latIdx','stimPeriodData_LF','earlyRetData_LF','lateRetData_LF')
+save([destDir '/' 'Alpha_Lateralization_Data.mat'],'latIdx','stimPeriodData_LF','earlyRetData_LF','lateRetData_LF','-v7.3')
 
 % save plot
 saveas(h,[plotDir '/' 'Alpha_Lateralization_Plots.eps'],'epsc')
 
 
 
-
-
+% % run a quick ANOVA (just double checking null BF results)
+% addpath(genpath('/home/waldrop/Desktop/WTF_EYE/resampling'))
+% % name variables
+% var1_name = 'eyes';
+% var1_levels = 2;
+% var2_name = 'mem';
+% var2_levels = 2;
+% 
+% for i=1:3
+%     
+%     observedData = squeeze(latIdx(:,:,i));
+%         
+%     statOutput = teg_repeated_measures_ANOVA(observedData,[var1_levels var2_levels],{var1_name, var2_name});
+%     
+%     allAnova(:,:,i) = statOutput;
+%     
+% end
 
 
 
