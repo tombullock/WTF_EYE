@@ -50,7 +50,14 @@ Use `WRAPPER.m` function to automatically process Trial and EEG data
 
 `Process_Eye_Data3` Remove broken trials and epoch around targets
 
-`Process_Eye_Data4` Manually select stable eye time segments post EM1, EM2 and EM3 cues and save indices
+`Eye_Movement_Analysis_Euclid` Finds euclidian distance between eye movements and fixation dot cues in "move" conditions
+
+`Eye_Movement_Analysis_Euclid_Plot` Plots euclidian distance (error) results for ^^
+
+
+`Process_Eye_Data4` OLD - DON'T DO THIS - Manually select stable eye time segments post EM1, EM2 and EM3 cues and save indices
+
+
 
  
 
