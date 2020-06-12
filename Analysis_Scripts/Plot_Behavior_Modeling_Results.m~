@@ -26,8 +26,8 @@ for iPlot=1:2
    for i=1:4
        if i==1; thisColor = [255,0,0];
        elseif i==2; thisColor = [0,128,255];
-       elseif i==3; thisColor = [0,204,0];
-       elseif i==4; thisColor = [204,0,204];
+       elseif i==3; thisColor = [204,0,204];
+       elseif i==4; thisColor = [204,0,160];
        end
        bar(i,mean(theseData(:,i),1), 'FaceColor',thisColor./255); hold on
    end
@@ -45,9 +45,7 @@ for iPlot=1:2
    
    %set(gca,xticklabels,{'1','2','3','4'})
 
-   xticklabelsNEW = {' '};%{'S/F','S/M','C/F','C/M'};
-   
-   set(gca,'xticklabels',xticklabelsNEW,'XTick',[])
+   xticklabels({'S/F','S/M','C/F','C/M'})
    
    title(thisTitle);
    box('off')
