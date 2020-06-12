@@ -131,16 +131,15 @@ for timeSegmentToPlot=1:3
                 centerX=.1;
                 centerY=.6;
             elseif iCond==2
-                centerX=.35;
+                centerX=.3;
                 centerY=.6;
             elseif iCond==3
-                centerX=.6;
+                centerX=.5;
                 centerY=.6;
             elseif iCond==4
-                centerX=.85;
+                centerX=.7;
                 centerY=.6;
             end
-            centerX = centerX-.05;
             
             % set figure sizes
             sizeX=.15;
@@ -156,8 +155,8 @@ for timeSegmentToPlot=1:3
 %             elseif  iLoc==8; xyShift = [.08,-.07];
 %             end
 
-            thisX1 = .08;
-            thisX2 = .03;
+            thisX1 = .05;
+            thisX2 = .02;
             thisY1 = .07;
             thisY2 = .14;
             
@@ -184,7 +183,7 @@ for timeSegmentToPlot=1:3
         elseif  iCond==3; condTitle = 'S/M';
         elseif  iCond==4; condTitle = 'C/M';
         end
-        annotation('textbox', [centerX+.04,centerY+.11, 0,0], 'string', condTitle,'FontSize',36);
+        annotation('textbox', [centerX+.055,centerY+.11, 0,0], 'string', condTitle,'FontSize',36);
         
         clear allBandNorm
         
@@ -198,7 +197,7 @@ for timeSegmentToPlot=1:3
     elseif timeSegmentToPlot==3
         figureTitlePosition=[.25,.97,0,0];        
     end
-    %annotation('textbox',figureTitlePosition, 'string', thisTimeSegmentLabel,'FontSize',36,'FitBoxToText','on','LineStyle','none');
+    annotation('textbox',figureTitlePosition, 'string', thisTimeSegmentLabel,'FontSize',36,'FitBoxToText','on','LineStyle','none');
     
     if timeSegmentToPlot==1
         saveas(h,[plotDir '/' 'Alpha_Topos_' thisTimeSegmentTitle '.eps'],'epsc')
