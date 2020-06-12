@@ -12,8 +12,8 @@ close all
 
 sourceDir = '/home/waldrop/Desktop/WTF_EYE/EYE/Eye_Euclidian_Error_mats';
 
-% select subjects
-subjects = [2,31];
+% select subjects (multiple)
+subjects = [1:7,9,11,12,16,17,19,24:27,31];
 
 
 for iSub=1:length(subjects)

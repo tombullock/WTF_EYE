@@ -12,7 +12,9 @@ close all
 eyeDir = '/home/waldrop/Desktop/WTF_EYE/EYE/Processed_EYE_UPDATED';
 behDir = '/home/waldrop/Desktop/WTF_EYE/Beh_Data_Processed';
 saveDir = '/home/waldrop/Desktop/WTF_EYE/EYE/Synchronized_EYE_UPDATED';
-sjNum=2;
+
+% select subject number (just one)
+sjNum=22;
 
 load(sprintf([behDir '/sj%02d_allBeh.mat'],sjNum))
 

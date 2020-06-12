@@ -11,8 +11,8 @@ close all
 sourceDir = '/home/waldrop/Desktop/WTF_EYE/EYE/Synchronized_EYE_UPDATED';
 destDir = '/home/waldrop/Desktop/WTF_EYE/EYE/Eye_Sync_Final';
 
-
-sjNum=2;
+% select subject number (just one)
+sjNum=14;
 
 % load data
 load([sourceDir '/' sprintf('sj%02d_eye_beh_sync.mat',sjNum)])
@@ -26,6 +26,11 @@ for iCond=1:4
         
         % isolate beh data from struct
         trialData = masterStruct(iSession,iCond).allTrialData;
+        
+        % add subject exceptions
+        if sjNum==10 && iCond==2 && iSession==2
+           trialData(end) = []; 
+        end
         
         % get vector of broken fixation trials
         brokenFixTrials = [trialData.brokenTrial];

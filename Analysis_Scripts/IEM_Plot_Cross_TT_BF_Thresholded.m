@@ -12,7 +12,7 @@ clear
 close all
 
 % select thresholding type (0=none, 1=p<.05,2=BF)
-thresholdType=1;
+thresholdType=2;
 
 % set dirs
 slopeDataDir = '/home/waldrop/Desktop/WTF_EYE/Data_Compiled';
