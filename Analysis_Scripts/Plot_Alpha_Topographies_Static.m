@@ -171,11 +171,11 @@ for timeSegmentToPlot=1:3
     annotation('textbox',figureTitlePosition, 'string', thisTimeSegmentLabel,'FontSize',36,'FitBoxToText','on','LineStyle','none');
     
     if timeSegmentToPlot==1
-        saveas(h,[plotDir '/' 'Alpha_Topos_' thisTimeSegmentTitle '.png'],'png')
+        saveas(h,[plotDir '/' 'Alpha_Topos_' thisTimeSegmentTitle '.eps'],'epsc')
     elseif timeSegmentToPlot==2
-        saveas(h,[plotDir '/' 'Alpha_Topos_' thisTimeSegmentTitle '.png'],'png')
+        saveas(h,[plotDir '/' 'Alpha_Topos_' thisTimeSegmentTitle '.eps'],'epsc')
     elseif timeSegmentToPlot==3
-        saveas(h,[plotDir '/' 'Alpha_Topos_' thisTimeSegmentTitle '.png'],'png')        
+        saveas(h,[plotDir '/' 'Alpha_Topos_' thisTimeSegmentTitle '.eps'],'epsc')        
     end
     
     clear ax theseData allBandNorm
