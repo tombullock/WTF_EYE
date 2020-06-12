@@ -23,6 +23,20 @@ for iSub=1:length(subjects)
         % load bandpassed data
         load([sourceDir '/' sprintf('sj%02d_cond%02d_Alpha.mat',sjNum,iCond) ])  
         
+        % baseline correct
+        thisBand = band.eeg;
+        
+        thisBand = thisBand - mean(thisBand(:,1:128,:),2);
+        
+        
+        %allBand = allBand - mean(allBand(:,:,:,:,1:128),5);
+        band.eeg = thisBand;
+        
+        clear thisBand
+
+        % convert hilbert complex doubles to power (induced) before avg
+        band.eeg = abs(band.eeg).^2;
+        
         % get stimulus location list
         clear stimLocs
         for b=1:length(band.beh) 

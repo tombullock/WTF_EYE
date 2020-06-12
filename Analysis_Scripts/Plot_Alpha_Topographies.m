@@ -30,7 +30,7 @@ theseChans = [poElects,oElects];
 allBand = allBand - mean(allBand(:,:,:,:,128));
 
 % convert to power
-allBand = abs(allBand).^2;
+%allBand = abs(allBand).^2;
 
 % condition loop
 for iCond=1

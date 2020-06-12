@@ -61,10 +61,10 @@ thisTime=2000; % end retention period
 [~, retEnd] = min(abs(thisTime-times));
 
 % baseline correct to mean of whole baseline period
-allBand = allBand - mean(allBand(:,:,:,:,baseStart:probeOn-1),5);
+%allBand = allBand - mean(allBand(:,:,:,:,baseStart:probeOn-1),5);
 
 % convert bandpassed data from complex numbers to to power
-allBand = abs(allBand).^2;
+%allBand = abs(allBand).^2;
     
 % loop through and plot differnet time segments
 for timeSegmentToPlot=1:3
