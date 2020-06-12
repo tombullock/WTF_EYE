@@ -51,7 +51,7 @@ thisTime=2000; % end retention period
 [~, retEnd] = min(abs(thisTime-times));
 
 % baseline correct to mean of whole baseline period
-allBand = allBand - mean(allBand(:,:,:,:,baseStart:probeOn-1),5);
+%allBand = allBand - mean(allBand(:,:,:,:,baseStart:probeOn-1),5);
 
 % convert bandpassed data from complex numbers to to power (IF EVOKED)
 %allBand = abs(allBand).^2;
@@ -108,14 +108,20 @@ for iPlot=1:3
     subplot(1,3,iPlot)
     
     for i=1:4
-       if       i==1; thisColor = 'r';
-       elseif   i==2; thisColor = 'b';
-       elseif   i==3; thisColor = 'g';
-       elseif   i==4; thisColor = 'm';
+%        if       i==1; thisColor = 'r';
+%        elseif   i==2; thisColor = 'b';
+%        elseif   i==3; thisColor = 'g';
+%        elseif   i==4; thisColor = 'm';
+%        end
+       
+       if i==1; thisColor = [255,0,0];
+       elseif i==2; thisColor = [0,128,255];
+       elseif i==3; thisColor = [0,204,0];
+       elseif i==4; thisColor = [204,0,204];
        end
        
         bar(i,mean(latIdx(:,i,iPlot),1),...
-            'FaceColor',thisColor); hold on
+            'FaceColor',thisColor./255); hold on
         
     end
     
@@ -125,17 +131,17 @@ for iPlot=1:3
         'LineWidth',2.5,...
         'CapSize',0)
     
-%     set(gca,...
-%         'ylim',[-.04,.14],...
-%         'YTick',-.04:.04:.16,...
-%         'xlim',[.5,4.5],...
-%         'xTickLabels',{' ', ' ', ' ', ' '},...
-%         'xTick',[],...
-%         'box','off',...
-%         'linewidth',1.5,...
-%         'fontsize',16)
+    set(gca,...
+        'ylim',[0,.12],...
+        'YTick',-.04:.04:.16,...
+        'xlim',[.5,4.5],...
+        'xTickLabels',{' ', ' ', ' ', ' '},...
+        'xTick',[],...
+        'box','off',...
+        'linewidth',1.5,...
+        'fontsize',24)
     
-    title(thisTimeSegmentLabel);
+    %title(thisTimeSegmentLabel);
     
     pbaspect([1,1,1])
 end
