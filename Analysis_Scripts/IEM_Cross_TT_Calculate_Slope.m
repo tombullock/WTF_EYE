@@ -18,12 +18,14 @@ sourceDir  = '/home/waldrop/Desktop/WTF_EYE/IEM_Results_TT_Cross';
 destDir = sourceDir;
 
 % select subjects
-subjects = [1:7,9:12,16:19,20,22,23];
+%subjects = [1:7,9:12,16:19,20,22,23]; %orig
+subjects = [1:7,9:14,16:20,22:27,31];
+
 
 % loop through all training\testing combinations
 for iSub=1:length(subjects)
     
-    sjNum=subjects(iSub);
+    sjNum=subjects(iSub)
     
     em=[]; tf_total=[]; tf_total_cross=[]; tf_total_cross_perm=[];
     
