@@ -47,7 +47,7 @@ thisYlim = [-.0017 .004];%'auto';
 
 % plot total slope
 thisYpos = -.0006; % start position for stats plots
-h=figure('Units','Normalized','OuterPosition',[0,0,.9,.65]); % change these numbers to change plot size
+h=figure('Units','Normalized','OuterPosition',[0,0,1,.75]); % change these numbers to change plot size
 for iCond=1:4
     
     if iCond==1; thisLineStyle='-'; thisColor = 'r'; % S/F
@@ -90,11 +90,11 @@ for iCond=1:4
     vline(thisSR*1,'k--')
     vline(thisSR*1.5,'k--')
     vline(thisSR*2,'k--')
-    xlabel('Time (ms)','FontSize',xLabelFontSize)
+    xlabel('Time (s)','FontSize',xLabelFontSize)
     ylabel('Slope','FontSize',yLabelFontSize)
     box('off')
     pbaspect([3 1 1])
-    title('CRF Slopes','FontSize',titleFontSize)
+    %title('CRF Slopes','FontSize',titleFontSize)
 end
 
 % set legend
@@ -103,3 +103,4 @@ set(h_legend,'FontSize',16);
 
 % save figure
 saveas(h,[destDir '/' 'CTF_Slope_Alpha_Within.jpeg'],'jpeg')
+saveas(h,[destDir '/' 'CTF_Slope_Alpha_Within.eps'],'epsc')

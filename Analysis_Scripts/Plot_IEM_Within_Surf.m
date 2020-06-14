@@ -12,6 +12,7 @@ close all
 % load 
 rDir = '/home/waldrop/Desktop/WTF_EYE';
 sourceDir = [rDir '/' 'IEM_Results_TT_Within_Tmp'];
+plotDir = '/home/waldrop/Desktop/WTF_EYE/Plots';
 
 % subjects [TOM ADDED SUBJECT 7 BACK IN}!
 subjects = [1:7,9:14,16:20,22:27,31];
@@ -25,7 +26,7 @@ xNewLim = [1 640];
 yNewTick = [1 2 3 4 5 6 7 8];
 zNewTick = [.2 .4 .6];
 zNewTickLabel = zNewTick;
-yNewTickLabel = ['-180';'    ';'-90 ';'    ';' 0  ';' 45 ';'    ';' 135'];
+yNewTickLabel = ['-180';'    ';'-90 ';'    ';' 0  ';'    ';' 90 ';'    '];
 yNewLim = [1 8];
 colorBar = [0 .8];
 thisAxisFontsize = 20;
@@ -49,30 +50,33 @@ end
 
 % plot data
 f=1; % alpha, theta
-h=figure('units','normalized','outerposition',[0 0 1 1]);
 for iCond=1:4
     
-    
+    h=figure('units','normalized','outerposition',[0 0 .65 1]);
+
     if      iCond==1; mc='Spatial'; ec='Fix';
     elseif  iCond==2; mc='Color';   ec='Fix';
     elseif  iCond==3; mc='Spatial'; ec='Move';
     elseif  iCond==4; mc='Color';   ec='Move';
     end
     
-    subplot(2,2,iCond);
+    %subplot(2,2,iCond);
     surf(squeeze(mean(all_real_total(:,iCond,f,:,:),1)),'linestyle','none','FaceAlpha',1); 
 
-    ylabel('Time(s)')
-    zlabel('Chan. Resp.(uV2)')
+    %ylabel('Time(s)')
+    %zlabel('Chan. Resp.(uV2)')
     title([mc ' / ' ec])
     view(70,30)
-    zlim([0 .7])
+    zlim([0 .6])
     colormap('jet')
+    caxis([.2,.6]);
     pbaspect([1 2 1])
     set(gca,'yTick',xNewTick,'yticklabel',xNewTickLabel,'xTick',yNewTick,...
         'xticklabel',yNewTickLabel,'ylim',xNewLim,'fontsize',thisAxisFontsize,...
         'LineWidth',4,'ztick',zNewTick,'zticklabel',zNewTickLabel);
     grid('off')
+    
+    saveas(h,[plotDir '/' 'IEM_Surf_' mc '_' ec '.eps'],'epsc')
 
 end
 
