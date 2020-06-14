@@ -65,7 +65,7 @@ for iCond=1:4
 
     %ylabel('Time(s)')
     %zlabel('Chan. Resp.(uV2)')
-    title([mc ' / ' ec])
+    %title([mc ' / ' ec])
     view(70,30)
     zlim([0 .6])
     colormap('jet')
