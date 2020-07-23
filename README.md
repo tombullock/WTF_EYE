@@ -77,13 +77,6 @@ Use `WRAPPER.m` function to automatically process Trial and EEG data
 `EEG_Compute_ERPs` Generate ERPs (control analysis)
 
 
-### Plot/Analyze Data
-
-`Plot_IEM_Within_Surf` Generate IEM 3D surface plots (training/testing on the same timepoint within participants)
-
-`Plot_IEM_Cross_TT` Generate IEM heatmaps (training/testing across all timespoints and across all conditions)
-
-
 ### Eye Data Analysis
 
 `Process_Eye_Data1` Epoch eye data around stimulus trigger 102 and create matrix of all trials
@@ -164,6 +157,14 @@ EEGLAB toolbox (v.2019_1)
 
 
 ## Notes for GitHub/Coding Style Workshop (remove)
+
+Give an overview of how to set up a github folder, how to add/commit/push etc. 
+
+Show how I deal with having stuff on cluster and local machines (directory naming v.important here, needs to be unified)
+
+How to deal with local scripts that are not run on cluster? e.g. R scripts?
+
+Integrating plots with adobe illustrator (show auto updating)
 
 Talk about MATLAB GitHub interaction e.g. useful for renaming files, deleting etc. But can also mysteriously not work for some stuff.
 
