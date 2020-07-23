@@ -1,16 +1,13 @@
 %{
 Spatial_IEM
 Original Author: Joshua Foster (heavily edited by Tom Bullock, UCSB Attention Lab)
-Date:11.15.19
+Date:06.16.20
 
-Load preprocessed EEG and Beh data.
-Merge across sessions and split into condition
-Get time-frequency data
-Either 1) Run IEM or 2) just get bandpassed data ...
+
 
 %}
 
-function IEM(sn)
+function IEM_All_Freqs(sn)
 
 %
 % if nargin==0
@@ -23,8 +20,7 @@ function IEM(sn)
 % set dirs
 rDir = '/home/waldrop/Desktop/WTF_EYE';
 eegDir = [rDir '/' 'EEG_Prepro2_Avg_Baseline'];
-bandpassedDir = [rDir '/' 'EEG_Bandpassed'];
-iemDir = [rDir '/' 'IEM_Results_TT_Within_Tmp' ];
+iemDir = [rDir '/' 'IEM_Results_All_Freqs' ];
 % select subjects
 %subjects = 4;
 
@@ -123,7 +119,9 @@ for iCond=1:4
     
     
     % loop through frequency bands (typically alpha, theta)
-    for f=1:size(freqs,1)
+    for f=1:40 %size(freqs,1)
+        
+        disp(['Processing ' num2str(f) ' Hz'])
         
         clear data bandEEG dataFilt1
         
@@ -131,7 +129,7 @@ for iCond=1:4
         eegs = allConds(iCond).eegs;
         
         % apply butterworth filter (3rd order, bandpass)
-        [z1,p1] = butter(3, [freqs(f,1), freqs(f,2)]./(eeg.sampRate/2),'bandpass');
+        [z1,p1] = butter(3, [f,f+1]./(eeg.sampRate/2),'bandpass');
         data = double(eegs);
         bandEEG = NaN(size(data,1),size(data,2),size(data,3));
         for x = 1:size(data,1)
@@ -150,14 +148,14 @@ for iCond=1:4
             end
         end
         
-        % create bandpassed data structure and save for sub\cond\freq
-        band.eeg = eegs;
-        band.freqs = freqs(f,:);
-        band.chanlocs = eeg.chanLabels;
-        band.srate = eeg.sampRate;
-        band.beh = allConds(iCond).beh;
-        band.times = eeg.times;
-        save([bandpassedDir '/' sprintf('sj%02d_cond%02d_%s',sn,iCond,bands{f})],'band','-v7.3');
+%         % create bandpassed data structure and save for sub\cond\freq
+%         band.eeg = eegs;
+%         band.freqs = freqs(f,:);
+%         band.chanlocs = eeg.chanLabels;
+%         band.srate = eeg.sampRate;
+%         band.beh = allConds(iCond).beh;
+%         band.times = eeg.times;
+%         save([bandpassedDir '/' sprintf('sj%02d_cond%02d_%s',sn,iCond,bands{f})],'band','-v7.3');
         
         % remove bad channels for IEM analyses
         clear badChanIdx thisBadChan
@@ -302,67 +300,7 @@ for iCond=1:4
             end
             
             
-            %==========================================================
-            %{
-                Run IEM with reduced SR for cross condition
-                training/testing and save weights.
-                Alpha band only!
-            %}
-            %==========================================================
             
-            if f==1
-                
-                % REAL DATA
-                
-                % training loop
-                %%tf_total=[];
-                for trLoop=1:40 % divide 640 samples into 40 samples of 16 (62.5ms per sample)
-                    
-                    theseSamples = (16*trLoop)-15:(16*trLoop);
-                    trainData = squeeze(mean(blockDat_total(:,:,theseSamples),3));
-                    
-                    % testing loop
-                    for teLoop=1:40
-                        
-                        theseSamples = (16*teLoop)-15:(16*teLoop);
-                        testData = squeeze(mean(blockDat_total(:,:,theseSamples),3));
-                        
-                        % Do forward model
-                        for i=1:nBlocks % loop through blocks, holding each out as the test set
-                            
-                            trnl = labels(blockNum~=i); % training labels
-                            tstl = labels(blockNum==i); % test labels
-                            
-                            %-----------------------------------------------------%
-                            % Analysis on Total Power                             %
-                            %-----------------------------------------------------%
-                            B1 = trainData(blockNum~=i,:);    % training data
-                            B2 = testData(blockNum==i,:);    % test data
-                            C1 = c(blockNum~=i,:);     % predicted channel outputs for training data
-                            W = C1\B1;          % estimate weight matrix
-                            C2 = (W'\B2')';     % estimate channel responses
-                            
-                            %C2_total(f,iter,t,i,:,:) = C2;
-                            
-                            % shift eegs to common center
-                            n2shift = ceil(size(C2,2)/2);
-                            for ii=1:size(C2,1)
-                                [~, shiftInd] = min(abs(posBins-tstl(ii)));
-                                C2(ii,:) = wshift('1D', C2(ii,:), shiftInd-n2shift-1);
-                            end
-                            
-                            %tf_total(iter,trLoop,teLoop,i,:) = mean(C2,1);
-                            
-                            % save B1, B2 and C1 for cross condition TT
-                            allB1(iter,trLoop,teLoop,i,:,:)=B1;
-                            allB2(iter,trLoop,teLoop,i,:,:)=B2;
-                            %allC1(iter,trLoop,teLoop,i,:,:)=C1;
-                            
-                        end
-                        
-                    end
-                end
-            end
             
             
             %==========================================================
@@ -476,107 +414,11 @@ for iCond=1:4
                 toc
             end
             
-            %clear permInd permedBins
-            
-            
-            %==========================================================
-            %{
-                Run PERMUTED IEM with reduced SR for cross condition
-                training/testing and save weights.
-                Alpha band only!
-            %}
-            %==========================================================
-            
-            % Loop through permutations
-            for perm = 1:5;%nPerms
-                tic % start timing permutation loop
-                %fprintf('Permutation %d out of %d/n',perm,nPerms);
-                
-                %-----------------------------------------------------------------------------
-                % Permute trial assignment within each block
-                %-----------------------------------------------------------------------------
-                permedPosBin = nan(size(posBin)); % preallocate permuted position bins vector
-                for b = 1:nBlocks % for each block..
-                    pInd = randperm(em.nTrialsPerBlock); % create a permutation index
-                    permedBins(pInd) = posBin(blocks == b); % grab block b data and permute according data according to the index
-                    permedPosBin(blocks == b) = permedBins; % put permuted data into permedPosBin
-                    permInd(f,iter,perm,b,:) = pInd; % save the permutation (permInd is saved at end of the script)
-                end
-                
-                %-----------------------------------------------------------------------------
-                
-                % Average data for each position bin across blocks
-                posBins = 1:nBins;
-                blockDat_evoked = nan(nBins*nBlocks,nElectrodes,nSamps); % averaged evoked data
-                blockDat_total = nan(nBins*nBlocks,nElectrodes,nSamps);  % averaged total data
-                labels = nan(nBins*nBlocks,1);                           % bin labels for averaged data
-                blockNum = nan(nBins*nBlocks,1);                         % block numbers for averaged data
-                c = nan(nBins*nBlocks,nChans);                           % predicted channel responses for averaged data
-                bCnt = 1;
-                for ii = 1:nBins
-                    for iii = 1:nBlocks
-                        blockDat_evoked(bCnt,:,:) = abs(squeeze(mean(fdata_evoked(permedPosBin==posBins(ii) & blocks==iii,:,tois),1))).^2;
-                        blockDat_total(bCnt,:,:) = squeeze(mean(fdata_total(permedPosBin==posBins(ii) & blocks==iii,:,tois),1));
-                        labels(bCnt) = ii;
-                        blockNum(bCnt) = iii;
-                        c(bCnt,:) = basisSet(ii,:);
-                        bCnt = bCnt+1;
-                    end
-                end
-                
-                % training loop
-                for trLoop=1:40 % divide 640 samples into 40 samples of 16 (62.5ms per sample)
-                    
-                    theseSamples = (16*trLoop)-15:(16*trLoop);
-                    trainData = squeeze(mean(blockDat_total(:,:,theseSamples),3));
-                    
-                    % testing loop
-                    for teLoop=1:40
-                        
-                        theseSamples = (16*teLoop)-15:(16*teLoop);
-                        testData = squeeze(mean(blockDat_total(:,:,theseSamples),3));
-                        
-                        % Do forward model
-                        for i=1:nBlocks % loop through blocks, holding each out as the test set
-                            
-                            trnl = labels(blockNum~=i); % training labels
-                            tstl = labels(blockNum==i); % test labels
-                            
-                            %-----------------------------------------------------%
-                            % Analysis on Total Power                             %
-                            %-----------------------------------------------------%
-                            B1 = trainData(blockNum~=i,:);    % training data
-                            B2 = testData(blockNum==i,:);    % test data
-                            C1 = c(blockNum~=i,:);     % predicted channel outputs for training data
-                            W = C1\B1;          % estimate weight matrix
-                            C2 = (W'\B2')';     % estimate channel responses
-                            
-                            %C2_total(f,iter,t,i,:,:) = C2;
-                            
-                            % shift eegs to common center
-                            n2shift = ceil(size(C2,2)/2);
-                            for ii=1:size(C2,1)
-                                [~, shiftInd] = min(abs(posBins-tstl(ii)));
-                                C2(ii,:) = wshift('1D', C2(ii,:), shiftInd-n2shift-1);
-                            end
-                            
-                            %tf_total(perm,iter,trLoop,teLoop,i,:) = mean(C2,1);
-                            
-                            % save B1, B2 and C1 for cross condition TT
-                            allB1_perm(perm,iter,trLoop,teLoop,i,:,:)=B1;
-                            allB2_perm(perm,iter,trLoop,teLoop,i,:,:)=B2;
-                            %allC1_perm(perm,iter,trLoop,teLoop,i,:,:)=C1;
-                            
-                        end
-                    end
-                end
-            end
-            
-            %clear permInd permedBins
+           
             
         end
         
-    end
+    end %freq loop
     
     % average high temporal resolution IEMs over block and iter to
     % reduce file size for save
@@ -590,19 +432,19 @@ for iCond=1:4
     em_within.tfs.evoked = tf_evoked;
     em_within.tfs.total = tf_total;
     
-    % organize low temporal res data for cross training/testing
-    em.tfs_cross_alpha.allB1=allB1;
-    em.tfs_cross_alpha.allB2=allB2;
+%     % organize low temporal res data for cross training/testing
+%     em.tfs_cross_alpha.allB1=allB1;
+%     em.tfs_cross_alpha.allB2=allB2;
     
     % save high temporal res permuted data
     em_within.tfs_perm.evoked = tf_evoked_perm;
     em_within.tfs_perm.total = tf_total_perm;
     
-    % save low temporal res permuted data
-    em.tfs_cross_alpha_perm.allB1=allB1_perm;
-    em.tfs_cross_alpha_perm.allB2=allB2_perm;
+%     % save low temporal res permuted data
+%     em.tfs_cross_alpha_perm.allB1=allB1_perm;
+%     em.tfs_cross_alpha_perm.allB2=allB2_perm;
     
-    save([iemDir '/' sprintf('sj%02d_cond%02d_IEM.mat',sn,iCond)],'em','em_within','minCnt','nElectrodes','-v7.3')
+    save([iemDir '/' sprintf('sj%02d_cond%02d_IEM.mat',sn,iCond)],'em_within','minCnt','nElectrodes','-v7.3')
     
     clear em_within minCnt nElectrodes tf_evoked tf_total tf_evoked_perm tf_total_perm allB1 allB2 allB1_perm allB2_perm allC1 permInd perm permedBins permedPosBin B1 B2
     

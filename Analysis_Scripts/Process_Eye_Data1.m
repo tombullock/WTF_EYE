@@ -14,7 +14,7 @@ sourceDir = '/home/waldrop/Desktop/WTF_EYE/EYE/Raw_EYE';
 destDir = '/home/waldrop/Desktop/WTF_EYE/EYE/Processed_EYE_UPDATED';
 
 cd(sourceDir)
-d=dir('*.mat');
+d=dir('s23*.mat');
 
 for f=1:length(d)
     

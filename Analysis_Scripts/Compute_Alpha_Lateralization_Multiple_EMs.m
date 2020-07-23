@@ -57,7 +57,7 @@ thisTime=2000; % end retention period
 %allBand = abs(allBand).^2;
     
 % loop through and plot differnet time segments
-for timeSegmentToPlot=1:2
+for timeSegmentToPlot=1:4
     
     % time segment settings
     if timeSegmentToPlot==1
@@ -65,16 +65,17 @@ for timeSegmentToPlot=1:2
         thisTimeSegmentLabel = 'Stimulus On (0.2-0.25 s)';
         thisTimeSegmentTitle = 'Probe';
     elseif timeSegmentToPlot==2
-%         thisTimeSegment = EM1cue:halfRet;
-%         thisTimeSegmentLabel = 'Early Retention (0.5-1.25s)';
-%         thisTimeSegmentTitle = 'Early Retention';
-        thisTimeSegment = EM1cue:retEnd;
-        thisTimeSegmentLabel = 'Retention (0.5-2 s)';
-        thisTimeSegmentTitle = 'Retention';
-%     elseif timeSegmentToPlot==3
-%         thisTimeSegment = halfRet:retEnd;
-%         thisTimeSegmentLabel = 'Late Retention (1.25-2s)';
-%         thisTimeSegmentTitle = 'Late Retention';        
+        thisTimeSegment = EM1cue:EM2cue;
+        thisTimeSegmentLabel = 'EM1 Window (0.5-1 s)';
+        thisTimeSegmentTitle = 'EM1 Window';
+    elseif timeSegmentToPlot==3
+        thisTimeSegment = EM2cue:EM3cue;
+        thisTimeSegmentLabel = 'EM2 Window (1-1.5 s)';
+        thisTimeSegmentTitle = 'EM2 Window';
+    elseif timeSegmentToPlot==4
+        thisTimeSegment = EM3cue:retEnd;
+        thisTimeSegmentLabel = 'End Retention (1.5-2 s)';
+        thisTimeSegmentTitle = 'EndRetention';      
     end
     
 %     % condition loop
@@ -89,11 +90,26 @@ for timeSegmentToPlot=1:2
         leftStimLocs = 3:6;
         rightStimLocs = [1,2,7,8];
         
+        % create lat index time segments
         allIpsi = (mean(mean(mean(allBand(:,iCond,leftStimLocs,leftHemiElects,thisTimeSegment),3),4),5) + mean(mean(mean(allBand(:,iCond,rightStimLocs,rightHemiElects,thisTimeSegment),3),4),5))./2;
         
         allContra = (mean(mean(mean(allBand(:,iCond,leftStimLocs,rightHemiElects,thisTimeSegment),3),4),5) + mean(mean(mean(allBand(:,iCond,rightStimLocs,leftHemiElects,thisTimeSegment),3),4),5))./2;
         
         latIdx(:,iCond,timeSegmentToPlot) = (allIpsi - allContra)./ (allIpsi +allContra);
+        
+        clear allIpsi allContra
+        
+        
+        % create continous lat index
+        
+        allIpsi = (mean(mean(allBand(:,iCond,leftStimLocs,leftHemiElects,:),3),4) + mean(mean(allBand(:,iCond,rightStimLocs,rightHemiElects,:),3),4))./2;
+        
+        allContra = (mean(mean(allBand(:,iCond,leftStimLocs,rightHemiElects,:),3),4) + mean(mean(allBand(:,iCond,rightStimLocs,leftHemiElects,:),3),4))./2;
+        
+        latIdxContinuous(iCond,:,:) = squeeze((allIpsi - allContra)./ (allIpsi +allContra));
+
+
+        
         
     end
     
@@ -101,14 +117,15 @@ end
 
 % generate bar plots for lateralization at each time segment
 h=figure('units','normalized','outerposition',[0.1 0.1 .5 1.2]);
-for iPlot=1:2
+for iPlot=1:4
     
     if      iPlot==1; thisTimeSegmentLabel = 'Stimulus (0.2-0.25 s)';
-    elseif  iPlot==2; thisTimeSegmentLabel = 'Retention (0.5-2 s)';
-    %elseif  iPlot==3; thisTimeSegmentLabel = 'Late Retention (1.25-2s)';
+    elseif  iPlot==2; thisTimeSegmentLabel = 'EM1 Window (0.5-1 s)';
+    elseif  iPlot==3; thisTimeSegmentLabel = 'EM2 Window (1-1.5 s)';
+    elseif  iPlot==4; thisTimeSegmentLabel = 'End Retention (1.5-2 s)';
     end
     
-    subplot(2,1,iPlot)
+    subplot(1,4,iPlot)
     
     for i=1:4
 %        if       i==1; thisColor = 'r';
@@ -149,6 +166,46 @@ for iPlot=1:2
     pbaspect([1,1,1])
 end
 
+
+% create a shaded error bar continous lateralization index
+for iPlot=1:4
+    
+    thisMean = squeeze(mean(latIdxContinuous(iPlot,:,:),2));
+    thisSEM = std(latIdxContinuous(iPlot,:,:),0,2)./sqrt(size(latIdxContinuous,2));
+    
+    %shadedErrorBar(times,thisMean,thisSEM); hold on
+    
+    plot(thisMean(1:640)); hold on
+    
+    % plot settings
+    
+    % axis limits and labels
+    thisSR = 256; % sample rate
+    xNewTick = [1, thisSR*.25, thisSR*.5, thisSR*.75, thisSR*1, thisSR*1.25, thisSR*1.5, thisSR*1.75, thisSR*2, thisSR*2.25, thisSR*2.5];
+    xNewTickLabel = ['-0.5';'-.25';'  0 ';' .25';' 0.5';' .75';'  1 ';'1.25';' 1.5';'1.75';'  2 '];
+    
+    box('off')
+    set(gca,'xTick',xNewTick,'xticklabel',xNewTickLabel,'xLim',[1 640],'fontsize',24,'LineWidth',1.5);
+    vline(thisSR*.5,'k--')
+    vline(thisSR*.75,'k--')
+    vline(thisSR*1,'k--')
+    vline(thisSR*1.5,'k--')
+    vline(thisSR*2,'k--')
+    %xlabel('Time (s)','FontSize',xLabelFontSize)
+    %ylabel('Slope','FontSize',yLabelFontSize)
+    box('off')
+    pbaspect([3 1 1])
+    %title('CRF Slopes','FontSize',titleFontSize)
+    
+end
+
+
+
+
+
+
+
+
 % convert lat index to wide format for R
 for iData=1:2
     
@@ -179,6 +236,17 @@ end
 
 % save plot
 %saveas(h,[plotDir '/' 'Alpha_Lateralization_Plots.eps'],'epsc')
+
+
+
+
+
+
+
+
+
+
+
 
 
 

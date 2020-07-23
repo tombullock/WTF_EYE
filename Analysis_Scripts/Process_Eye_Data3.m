@@ -30,6 +30,10 @@ for iCond=1:4
         % add subject exceptions
         if sjNum==10 && iCond==2 && iSession==2
            trialData(end) = []; 
+        elseif sjNum==23 && iCond==1 && iSession==1
+            trialData(end) = [];
+        elseif sjNum==14 && iCond==2 && iSession==1
+            trialData(end) = [];
         end
         
         % get vector of broken fixation trials

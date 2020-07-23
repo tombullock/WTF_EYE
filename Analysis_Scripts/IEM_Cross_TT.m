@@ -136,7 +136,7 @@ for k=1:16
     nChans = trainSet.em.nChans;
     nBins = trainSet.em.nBins;
     nIter = trainSet.em.nIter;
-    nPerm = trainSet.em.nPerms;
+    nPerm = size(allB1,1);%   trainSet.em.nPerms;
     nBlocks = trainSet.em.nBlocks;
     basisSet = trainSet.em.basisSet;
     

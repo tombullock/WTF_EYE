@@ -11,7 +11,8 @@ function em = IEM_Settings
 em.nChans = 8; % # of channels
 em.nBins = em.nChans; % # of stimulus bins
 em.nIter = 10; % # of iterations [UP THIS TO 10 EVENTUALLY]
-em.nPerms = 3; % # of permutations (for permuted datasets) [KEEP THIS AT 3 OR FILES GET TOO BIG]
+%em.nPerms = 5; % # of permutations (for permuted datasets) edited in IEM
+%script different for within/cross
 em.nBlocks = 3; % # of blocks for cross-validation
 em.frequencies = [8,12;4,7]; % frequency bands to analyze
 em.bands = {'Alpha','Theta'};

@@ -21,12 +21,12 @@ subjects = [1:7,9:14,16:20,22:27,31];
 % set up plot
 thisSR=256;
 xNewTick = [1, thisSR*.5, thisSR*1,  thisSR*1.5, thisSR*2, thisSR*2.5];
-xNewTickLabel = ['-0.5';'  0 ';' 0.5';'  1 ';' 1.5';'  2 '];
+xNewTickLabel = [];%['-0.5';'  0 ';' 0.5';'  1 ';' 1.5';'  2 '];
 xNewLim = [1 640];
 yNewTick = [1 2 3 4 5 6 7 8];
 zNewTick = [.2 .4 .6];
-zNewTickLabel = zNewTick;
-yNewTickLabel = ['-180';'    ';'-90 ';'    ';' 0  ';'    ';' 90 ';'    '];
+zNewTickLabel = [];%zNewTick;
+yNewTickLabel = [];%['-180';'    ';'-90 ';'    ';' 0  ';'    ';' 90 ';'    '];
 yNewLim = [1 8];
 colorBar = [0 .8];
 thisAxisFontsize = 20;
@@ -67,7 +67,7 @@ for iCond=1:4
     %zlabel('Chan. Resp.(uV2)')
     %title([mc ' / ' ec])
     view(70,30)
-    zlim([0 .6])
+    zlim([0 .65])
     colormap('jet')
     caxis([.2,.6]);
     pbaspect([1 2 1])
@@ -77,6 +77,6 @@ for iCond=1:4
     grid('off')
     
     saveas(h,[plotDir '/' 'IEM_Surf_' mc '_' ec '.eps'],'epsc')
-
+    saveas(h,[plotDir '/' 'IEM_Surf_' mc '_' ec '.jpg'],'jpeg')
 end
 

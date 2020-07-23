@@ -67,22 +67,22 @@ thisTime=2000; % end retention period
 %allBand = abs(allBand).^2;
     
 % loop through and plot differnet time segments
-for timeSegmentToPlot=1:3
+for timeSegmentToPlot=1:2
     
     
     % time segment settings
     if timeSegmentToPlot==1
         thisTimeSegment = probeFinal50ms:probeOff;
-        thisTimeSegmentLabel = 'Stimulus On (0.2-0.25s)';
+        thisTimeSegmentLabel = 'Stimulus On (0.2-0.25 s)';
         thisTimeSegmentTitle = 'Probe';
     elseif timeSegmentToPlot==2
-        thisTimeSegment = EM1cue:halfRet;
-        thisTimeSegmentLabel = 'Early Retention (0.5-1.25s)';
-        thisTimeSegmentTitle = 'Early Retention';
-    elseif timeSegmentToPlot==3
-        thisTimeSegment = halfRet:retEnd;
-        thisTimeSegmentLabel = 'Late Retention (1.25-2s)';
-        thisTimeSegmentTitle = 'Late Retention';        
+        thisTimeSegment = EM1cue:retEnd;
+        thisTimeSegmentLabel = 'Retention (0.5-2 s)';
+        thisTimeSegmentTitle = 'Retention';
+%     elseif timeSegmentToPlot==3
+%         thisTimeSegment = halfRet:retEnd;
+%         thisTimeSegmentLabel = 'Late Retention (1.25-2s)';
+%         thisTimeSegmentTitle = 'Late Retention';        
     end
     
     
@@ -184,7 +184,7 @@ for timeSegmentToPlot=1:3
         elseif  iCond==3; condTitle = 'S/M';
         elseif  iCond==4; condTitle = 'C/M';
         end
-        annotation('textbox', [centerX+.04,centerY+.11, 0,0], 'string', condTitle,'FontSize',36);
+        %annotation('textbox', [centerX+.04,centerY+.11, 0,0], 'string', condTitle,'FontSize',36);
         
         clear allBandNorm
         
@@ -204,8 +204,8 @@ for timeSegmentToPlot=1:3
         saveas(h,[plotDir '/' 'Alpha_Topos_' thisTimeSegmentTitle '.eps'],'epsc')
     elseif timeSegmentToPlot==2
         saveas(h,[plotDir '/' 'Alpha_Topos_' thisTimeSegmentTitle '.eps'],'epsc')
-    elseif timeSegmentToPlot==3
-        saveas(h,[plotDir '/' 'Alpha_Topos_' thisTimeSegmentTitle '.eps'],'epsc')        
+%     elseif timeSegmentToPlot==3
+%         saveas(h,[plotDir '/' 'Alpha_Topos_' thisTimeSegmentTitle '.eps'],'epsc')        
     end
     
     clear ax theseData allBandNorm

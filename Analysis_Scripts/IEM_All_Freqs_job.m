@@ -10,7 +10,7 @@ subjects = [1:7,9:14,16:20,22:27,31];
 
 
 % run in serial for debugging (0) or parallel (1)
-runInParallel=0;
+runInParallel=1;
 
 if runInParallel
     s = parcluster();
@@ -21,9 +21,9 @@ end
 for iSub = 1:length(subjects)
     sjNum = subjects(iSub);
     if runInParallel
-        createTask(job,@IEM,0,{sjNum});
+        createTask(job,@IEM_All_Freqs,0,{sjNum});
     else
-        IEM(sjNum) 
+        IEM_All_Freqs(sjNum) 
     end
 end
 
