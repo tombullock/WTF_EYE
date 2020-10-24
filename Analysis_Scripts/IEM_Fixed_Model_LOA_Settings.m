@@ -9,16 +9,16 @@ Outputs: em (encoding model) structure containing all IEM settings
 
 %}
 
-function em = IEM_Settings
+function em = IEM_Fixed_Model_LOA_Settings
 
 % parameters to set
 em.nChans = 8; % # of hypothetical orientation/location channels
 em.nBins = em.nChans; % # of stimulus bins (typically equal to nChans)
-em.nIter = 10; % # of iterations
+em.nIter = 1; % # of iterations
 %em.nPerms = 5; % # of permutations 
 em.nBlocks = 3; % # of blocks for cross-validation
-em.frequencies = [8,12;4,7]; % frequency bands to analyze
-em.bands = {'Alpha','Theta'}; % frequency band labels
+em.frequencies = [8,12]; % frequency bands to analyze
+em.bands = {'Alpha'}; % frequency band labels
 em.Fs = 256; % sample rate
 em.window = 4; % ?remove
 em.time = -.5*1000:1000/em.Fs:1.9961*1000; % time window e.g. [-500:4:2000]
