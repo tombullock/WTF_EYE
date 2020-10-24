@@ -1,4 +1,4 @@
-# Tracking Disruptions of Spatial Representations in Working Memory by Eye-Movementsv
+# Tracking Disruptions of Spatial Representations in Working Memory by Eye-Movements (SCAM!)
 
 ## Abstract: 
 
@@ -6,7 +6,7 @@ Oscillations in the alpha frequency band (~8-12 Hz) play an important role in su
 
 ## Data:
 
-Preprocessed EEG data files can be downloaded <b>[here](https://ucsb.box.com/s/17pfhwl4a8i1gnzyuwhz4rh2hplszhaq)</b>.  
+Preprocessed EEG data files (ready for IEM) can be downloaded <b>[here](https://ucsb.box.com/s/17pfhwl4a8i1gnzyuwhz4rh2hplszhaq)</b>.  
 
 ## Scripts
 
