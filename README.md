@@ -1,9 +1,12 @@
-# Tracking Disruptions of Spatial Representations in Working Memory by Eye-Movements
+# Tracking Disruptions of Spatial Representations in Working Memory by Eye-Movementsv
 
 ## Abstract: 
 
 Oscillations in the alpha frequency band (~8-12 Hz) play an important role in supporting selective attention to visual items and maintenance of their spatial locations in human working memory (WM).  Recent findings suggest that the maintenance of spatial information in alpha is modulated by different forms of interruption to continuous visual input, such that attention shifts, eye-closure and backward masking of the encoded item cause reconstructed representations of remembered locations to become degraded.  Here, we investigated how another common visual disruption - eye-movement - modulates reconstructions of stored representations of items held in WM.  Participants completed trials of a delayed estimation task, where they encoded and recalled either the location (spatial memory) or color (non-spatial memory) of an object after a brief retention period.  During retention, participants either fixated at center or executed a sequence of guided eye-movements.  Electroencephalography (EEG) was recorded at the scalp and gaze was monitored using gaze-contingent eye-tracking.  The inverted encoding modeling (IEM) technique was applied to reconstruct location-selective responses from alpha-band activity during encoding and retention periods.  Eye movements disrupted the maintenance of stored location representations in alpha, and there was no evidence to suggest a distinct pattern of alpha activation emerged to support the location-specific representation during eye-movements.  However, location representations could be recovered when eye-gaze stabilized both between and after eye-movements.  These results suggest that eye-movements disrupt maintenance of spatial information in alpha in a manner that is consistent with other acute interruptions to continuous visual input. 
 
+## Data:
+
+Preprocessed EEG data files can be downloaded <b>[here](https://ucsb.box.com/s/17pfhwl4a8i1gnzyuwhz4rh2hplszhaq)</b>.  
 
 ## Scripts
 
@@ -24,7 +27,7 @@ Use `WRAPPER.m` function to automatically process Trial and EEG data
 `Beh_Convert_Format_MAT_to_R` Convert behavioral data from wide (MATLAB)to long (R)format
 
 
-### EEG 
+### EEG Preprocessing
 
 `EEG_Preprocessing1` Import, filter, sync EEG with Trial Info
  
@@ -32,7 +35,10 @@ Use `WRAPPER.m` function to automatically process Trial and EEG data
 
 `badChannelInfo` Identify bad electrodes for each subject
 
-`IEM_Settings` Contains general IEM settings. Very important!
+
+### IEM Individual Conditions w/Blocked Approach
+
+`IEM_Settings` Contains general IEM settings [BLOCKED MODEL ONLY]. Very important!
 
 `IEM` Run all IEMs, save TFs for high temporal resolution "within" IEMs, save weights for lower temporal resolution "cross" IEMs
  
@@ -75,6 +81,15 @@ Use `WRAPPER.m` function to automatically process Trial and EEG data
 `EEG_Extract_Preprocessed_Data_For_ERP_Analysis` +job Gets raw signal data for ERP analyses (control analysis)
 
 `EEG_Compute_ERPs` Generate ERPs (control analysis)
+
+
+### IEM Fixed Model w/ Leave One Absent Approach
+
+`IEM_Fixed_Model_LOA.m`+job Run fixed model with leave one out cross-validation.  This doesn't seem to be workign well.
+
+`IEM_Fixed_Model_LOA_Settings.m` IEM settings for ^
+
+`Plot_IEM_Within_Surf_Fixed_Split_Conds.m` Create surface plots for fixed model LOA results (very rough script)
 
 
 ### Eye Data Analysis
